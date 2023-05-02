@@ -15,6 +15,12 @@ export default function MyDocument(props) {
         <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" />
+        <meta name="title" property="og:title" content="VoltWise" />
+        <meta
+          name="image"
+          property="og:image"
+          content="/images/thumbnail.png"
+        />
         {emotionStyleTags}
       </Head>
       <body>
