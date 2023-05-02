@@ -36,6 +36,21 @@ const chartOptions = {
   },
 };
 
+const formatDateWithDay = (val) => {
+  return new Date(val).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+const formatDateWithoutDay = (val) => {
+  const date = new Date(val);
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.getFullYear().toString().substr(-2);
+  return month + ", " + year;
+};
+
 export const Graph = ({
   actualdata,
   predictedData,
@@ -150,19 +165,18 @@ export const Graph = ({
         min: minDate,
 
         type: "datetime",
-        tickAmount: 10,
+        tickAmount: 12,
+        tickPlacement: "on",
+        tooltip: {
+          enabled: false,
+        },
 
         labels: {
           show: !isLoading,
           style: {
             colors: theme.palette.neutral.light,
           },
-          formatter: function (val) {
-            return new Date(val).toLocaleDateString("en-US", {
-              day: "numeric",
-              month: "short",
-            });
-          },
+          formatter: formatDateWithoutDay,
         },
         axisBorder: {
           show: true,
@@ -192,14 +206,7 @@ export const Graph = ({
       tooltip: {
         theme: theme.palette.mode === "dark" ? "dark" : "light",
         x: {
-          // format: "dd MMM yyyy",
-          formatter: function (val) {
-            return new Date(val).toLocaleDateString("en-US", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            });
-          },
+          formatter: formatDateWithDay,
         },
         y: {
           formatter: function (val) {

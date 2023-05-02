@@ -3,7 +3,7 @@ import { Graph } from "../common/Graph";
 import { usePlotStore } from "@/store/plotStore";
 import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 

@@ -13,6 +13,12 @@ import { useState } from "react";
 import { useCompareStore } from "@/store/compareStore";
 import { tokens } from "@/theme/colorTokens";
 
+import { AlertModal } from "../common/AlertModal";
+import {
+  getTimePeriodInMonths,
+  getFrequencyInMonths,
+} from "@/utils/FrequencyAndTime";
+
 const customStyles = (theme, colors) => ({
   labelText: {
     typography: {
@@ -93,6 +99,18 @@ export const Options = () => {
   const model = useCompareStore((state) => state.model);
   const setModel = useCompareStore((state) => state.setModel);
 
+  const [openModal, setOpenModal] = useState({
+    open: false,
+    message: "",
+  });
+
+  const closeModalHandler = () => {
+    setOpenModal({
+      open: false,
+      message: "",
+    });
+  };
+
   const handleRegion1Change = (e) => {
     setRegion1(e.target.value);
   };
@@ -101,12 +119,40 @@ export const Options = () => {
     setRegion2(e.target.value);
   };
 
-  const handleFrequencyChange = (e) => {
-    setFrequency(e.target.value);
+  const handleFrequencyChange = (event) => {
+    const selectedFrequency = event.target.value;
+
+    // Check if selected frequency is greater than time period
+    const timePeriodInMonths = getTimePeriodInMonths(timePeriod);
+    const frequencyInMonths = getFrequencyInMonths(selectedFrequency);
+    if (frequencyInMonths >= timePeriodInMonths) {
+      setOpenModal({
+        open: true,
+        message: "Please select a frequency that is less than the time period.",
+      });
+      return;
+    }
+
+    setFrequency(selectedFrequency);
   };
 
-  const handleTimePeriodChange = (e) => {
-    setTimePeriod(e.target.value);
+  const handleTimePeriodChange = (event) => {
+    const selectedTimePeriod = event.target.value;
+
+    // Check if selected time period is less than frequency
+    const timePeriodInMonths = getTimePeriodInMonths(selectedTimePeriod);
+    const frequencyInMonths = getFrequencyInMonths(frequency);
+    if (timePeriodInMonths <= frequencyInMonths) {
+      setOpenModal({
+        open: true,
+        message:
+          "Please select a time period that is greater than the frequency.",
+      });
+
+      return;
+    }
+
+    setTimePeriod(selectedTimePeriod);
   };
 
   const handleModelChange = (e) => {
@@ -114,326 +160,336 @@ export const Options = () => {
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        marginTop: {
-          xs: "1rem",
-          sm: "2rem",
-          md: "3rem",
-        },
-        // display: "flex",
-        // alignItems: "center",
-        // justifyContent: "center",
-      }}
-      rowGap={1}
-    >
-      {region1 !== undefined && (
-        <Grid
-          item
-          xs={6}
-          sm={4}
-          md={3}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0.5rem",
-          }}
-        >
-          <Typography sx={styles.labelText} mr={2}>
-            Region 1:
-          </Typography>
-          <FormControl
+    <>
+      <Grid
+        container
+        sx={{
+          marginTop: {
+            xs: "1rem",
+            sm: "2rem",
+            md: "3rem",
+          },
+          // display: "flex",
+          // alignItems: "center",
+          // justifyContent: "center",
+        }}
+        rowGap={1}
+      >
+        {region1 !== undefined && (
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={3}
             sx={{
-              // m: 1,
-
-              ...styles.formRoot,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0.5rem",
             }}
-            size="small"
           >
-            <InputLabel
+            <Typography sx={styles.labelText} mr={2}>
+              Region 1:
+            </Typography>
+            <FormControl
               sx={{
-                display: {
-                  xs: "block",
-                  sm: "none",
-                },
-              }}
-              id="region1-label"
-            >
-              Region 1
-            </InputLabel>
-            <Select
-              labelId="region1-label"
-              value={region1}
-              onChange={handleRegion1Change}
-              label={isMobile ? "Region 1" : null}
-              MenuProps={{
-                PaperProps: {
-                  sx: styles.selectPaperprops,
-                },
-              }}
-            >
-              <MenuItem value="" disabled>
-                Select
-              </MenuItem>
-              <MenuItem value="CAL">California (CAL)</MenuItem>
-              <MenuItem value="CAR">Carolinas (CAR)</MenuItem>
-              <MenuItem value="CENT">Central (CENT)</MenuItem>
-              <MenuItem value="FLA">Florida (FLA)</MenuItem>
-              <MenuItem value="MIDA">Mid-Atlantic (MIDA)</MenuItem>
-              <MenuItem value="MIDW">Midwest (MIDW)</MenuItem>
-              <MenuItem value="NE">Northeast (NE)</MenuItem>
-              {/* <MenuItem value="NW">Northwest</MenuItem> */}
-              <MenuItem value="NY">New York (NY)</MenuItem>
-              <MenuItem value="SE">Southeast (SE)</MenuItem>
-              <MenuItem value="SW">Southwest (SW)</MenuItem>
-              <MenuItem value="TEX">Texas (TEX)</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      )}
+                // m: 1,
 
-      {region2 !== undefined && (
-        <Grid
-          item
-          xs={6}
-          sm={4}
-          md={3}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0.5rem",
-          }}
-        >
-          <Typography sx={styles.labelText} mr={2}>
-            Region 2:{" "}
-          </Typography>
-          <FormControl
+                ...styles.formRoot,
+              }}
+              size="small"
+            >
+              <InputLabel
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "none",
+                  },
+                }}
+                id="region1-label"
+              >
+                Region 1
+              </InputLabel>
+              <Select
+                labelId="region1-label"
+                value={region1}
+                onChange={handleRegion1Change}
+                label={isMobile ? "Region 1" : null}
+                MenuProps={{
+                  PaperProps: {
+                    sx: styles.selectPaperprops,
+                  },
+                }}
+              >
+                <MenuItem value="" disabled>
+                  Select
+                </MenuItem>
+                <MenuItem value="CAL">California (CAL)</MenuItem>
+                <MenuItem value="CAR">Carolinas (CAR)</MenuItem>
+                <MenuItem value="CENT">Central (CENT)</MenuItem>
+                <MenuItem value="FLA">Florida (FLA)</MenuItem>
+                <MenuItem value="MIDA">Mid-Atlantic (MIDA)</MenuItem>
+                <MenuItem value="MIDW">Midwest (MIDW)</MenuItem>
+                <MenuItem value="NE">Northeast (NE)</MenuItem>
+                {/* <MenuItem value="NW">Northwest</MenuItem> */}
+                <MenuItem value="NY">New York (NY)</MenuItem>
+                <MenuItem value="SE">Southeast (SE)</MenuItem>
+                <MenuItem value="SW">Southwest (SW)</MenuItem>
+                <MenuItem value="TEX">Texas (TEX)</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
+
+        {region2 !== undefined && (
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={3}
             sx={{
-              // m: 1,
-
-              ...styles.formRoot,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0.5rem",
             }}
-            size="small"
           >
-            <InputLabel
+            <Typography sx={styles.labelText} mr={2}>
+              Region 2:{" "}
+            </Typography>
+            <FormControl
               sx={{
-                display: {
-                  xs: "block",
-                  sm: "none",
-                },
-              }}
-              id="region2-label"
-            >
-              Region 2
-            </InputLabel>
-            <Select
-              labelId="region2-label"
-              value={region2}
-              onChange={handleRegion2Change}
-              label={isMobile ? "Region 2" : null}
-              MenuProps={{
-                PaperProps: {
-                  sx: styles.selectPaperprops,
-                },
-              }}
-            >
-              <MenuItem value="" disabled>
-                Select
-              </MenuItem>
-              <MenuItem value="CAL">California (CAL)</MenuItem>
-              <MenuItem value="CAR">Carolinas (CAR)</MenuItem>
-              <MenuItem value="CENT">Central (CENT)</MenuItem>
-              <MenuItem value="FLA">Florida (FLA)</MenuItem>
-              <MenuItem value="MIDA">Mid-Atlantic (MIDA)</MenuItem>
-              <MenuItem value="MIDW">Midwest (MIDW)</MenuItem>
-              <MenuItem value="NE">Northeast (NE)</MenuItem>
-              {/* <MenuItem value="NW">Northwest</MenuItem> */}
-              <MenuItem value="NY">New York (NY)</MenuItem>
-              <MenuItem value="SE">Southeast (SE)</MenuItem>
-              <MenuItem value="SW">Southwest (SW)</MenuItem>
-              <MenuItem value="TEX">Texas (TEX)</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      )}
+                // m: 1,
 
-      {frequency !== undefined && (
-        <Grid
-          item
-          xs={6}
-          sm={4}
-          md={3}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0.5rem",
-          }}
-        >
-          <Typography sx={styles.labelText} mr={2}>
-            Frequency:{" "}
-          </Typography>
-          <FormControl
+                ...styles.formRoot,
+              }}
+              size="small"
+            >
+              <InputLabel
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "none",
+                  },
+                }}
+                id="region2-label"
+              >
+                Region 2
+              </InputLabel>
+              <Select
+                labelId="region2-label"
+                value={region2}
+                onChange={handleRegion2Change}
+                label={isMobile ? "Region 2" : null}
+                MenuProps={{
+                  PaperProps: {
+                    sx: styles.selectPaperprops,
+                  },
+                }}
+              >
+                <MenuItem value="" disabled>
+                  Select
+                </MenuItem>
+                <MenuItem value="CAL">California (CAL)</MenuItem>
+                <MenuItem value="CAR">Carolinas (CAR)</MenuItem>
+                <MenuItem value="CENT">Central (CENT)</MenuItem>
+                <MenuItem value="FLA">Florida (FLA)</MenuItem>
+                <MenuItem value="MIDA">Mid-Atlantic (MIDA)</MenuItem>
+                <MenuItem value="MIDW">Midwest (MIDW)</MenuItem>
+                <MenuItem value="NE">Northeast (NE)</MenuItem>
+                {/* <MenuItem value="NW">Northwest</MenuItem> */}
+                <MenuItem value="NY">New York (NY)</MenuItem>
+                <MenuItem value="SE">Southeast (SE)</MenuItem>
+                <MenuItem value="SW">Southwest (SW)</MenuItem>
+                <MenuItem value="TEX">Texas (TEX)</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
+
+        {frequency !== undefined && (
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={3}
             sx={{
-              // m: 1,
-
-              ...styles.formRoot,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0.5rem",
             }}
-            size="small"
           >
-            <InputLabel
+            <Typography sx={styles.labelText} mr={2}>
+              Frequency:{" "}
+            </Typography>
+            <FormControl
               sx={{
-                display: {
-                  xs: "block",
-                  sm: "none",
-                },
-              }}
-              id="freq-label"
-            >
-              Frequency
-            </InputLabel>
-            <Select
-              labelId="freq-label"
-              value={frequency}
-              onChange={handleFrequencyChange}
-              label={isMobile ? "Frequency" : null}
-              MenuProps={{
-                PaperProps: {
-                  sx: styles.selectPaperprops,
-                },
-              }}
-            >
-              <MenuItem value="" disabled>
-                Select
-              </MenuItem>
-              <MenuItem value="D">Daily</MenuItem>
-              <MenuItem value="W">Weekly</MenuItem>
-              <MenuItem value="M">Monthly</MenuItem>
-              <MenuItem value="3M">Quaterly</MenuItem>
-              <MenuItem value="6M">6 Months</MenuItem>
-              <MenuItem value="1Y">Yearly</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      )}
+                // m: 1,
 
-      {timePeriod !== undefined && (
-        <Grid
-          item
-          xs={6}
-          sm={4}
-          md={3}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0.5rem",
-          }}
-        >
-          <Typography sx={styles.labelText} mr={2}>
-            Time:{" "}
-          </Typography>
-          <FormControl
+                ...styles.formRoot,
+              }}
+              size="small"
+            >
+              <InputLabel
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "none",
+                  },
+                }}
+                id="freq-label"
+              >
+                Frequency
+              </InputLabel>
+              <Select
+                labelId="freq-label"
+                value={frequency}
+                onChange={handleFrequencyChange}
+                label={isMobile ? "Frequency" : null}
+                MenuProps={{
+                  PaperProps: {
+                    sx: styles.selectPaperprops,
+                  },
+                }}
+              >
+                <MenuItem value="" disabled>
+                  Select
+                </MenuItem>
+                <MenuItem value="D">Daily</MenuItem>
+                <MenuItem value="W">Weekly</MenuItem>
+                <MenuItem value="M">Monthly</MenuItem>
+                <MenuItem value="3M">Quaterly</MenuItem>
+                <MenuItem value="6M">6 Months</MenuItem>
+                {/* <MenuItem value="1Y">Yearly</MenuItem> */}
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
+
+        {timePeriod !== undefined && (
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={3}
             sx={{
-              // m: 1,
-
-              ...styles.formRoot,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0.5rem",
             }}
-            size="small"
           >
-            <InputLabel
+            <Typography sx={styles.labelText} mr={2}>
+              Time:{" "}
+            </Typography>
+            <FormControl
               sx={{
-                display: {
-                  xs: "block",
-                  sm: "none",
-                },
-              }}
-              id="time-label"
-            >
-              Time
-            </InputLabel>
-            <Select
-              labelId="time-label"
-              value={timePeriod}
-              onChange={handleTimePeriodChange}
-              label={isMobile ? "Frequency" : null}
-              MenuProps={{
-                PaperProps: {
-                  sx: styles.selectPaperprops,
-                },
-              }}
-            >
-              <MenuItem value="" disabled>
-                Select
-              </MenuItem>
+                // m: 1,
 
-              <MenuItem value="1-month">1 Month</MenuItem>
-              <MenuItem value="3-months">3 Months</MenuItem>
-              <MenuItem value="6-months">6 Months</MenuItem>
-              <MenuItem value="1-year">1 Year</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      )}
+                ...styles.formRoot,
+              }}
+              size="small"
+            >
+              <InputLabel
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "none",
+                  },
+                }}
+                id="time-label"
+              >
+                Time
+              </InputLabel>
+              <Select
+                labelId="time-label"
+                value={timePeriod}
+                onChange={handleTimePeriodChange}
+                label={isMobile ? "Frequency" : null}
+                MenuProps={{
+                  PaperProps: {
+                    sx: styles.selectPaperprops,
+                  },
+                }}
+              >
+                <MenuItem value="" disabled>
+                  Select
+                </MenuItem>
 
-      {model !== undefined && (
-        <Grid
-          item
-          xs={6}
-          sm={4}
-          md={3}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0.5rem",
-          }}
-        >
-          <Typography sx={styles.labelText} mr={2}>
-            Model:{" "}
-          </Typography>
-          <FormControl
+                {/* <MenuItem value="1-month">1 Month</MenuItem> */}
+                <MenuItem value="3-months">3 Months</MenuItem>
+                <MenuItem value="6-months">6 Months</MenuItem>
+                <MenuItem value="1-year">1 Year</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
+
+        {model !== undefined && (
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            md={3}
             sx={{
-              // m: 1,
-
-              ...styles.formRoot,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0.5rem",
             }}
-            size="small"
           >
-            <InputLabel
+            <Typography sx={styles.labelText} mr={2}>
+              Model:{" "}
+            </Typography>
+            <FormControl
               sx={{
-                display: {
-                  xs: "block",
-                  sm: "none",
-                },
+                // m: 1,
+
+                ...styles.formRoot,
               }}
-              id="time-label"
+              size="small"
             >
-              Model
-            </InputLabel>
-            <Select
-              labelId="time-label"
-              value={model}
-              onChange={handleModelChange}
-              label={isMobile ? "Model" : null}
-              MenuProps={{
-                PaperProps: {
-                  sx: styles.selectPaperprops,
-                },
-              }}
-            >
-              <MenuItem value="" disabled>
-                Select
-              </MenuItem>
-              <MenuItem value="arima">Arima</MenuItem>
-              <MenuItem value="prophet">Prophet</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+              <InputLabel
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "none",
+                  },
+                }}
+                id="time-label"
+              >
+                Model
+              </InputLabel>
+              <Select
+                labelId="time-label"
+                value={model}
+                onChange={handleModelChange}
+                label={isMobile ? "Model" : null}
+                MenuProps={{
+                  PaperProps: {
+                    sx: styles.selectPaperprops,
+                  },
+                }}
+              >
+                <MenuItem value="" disabled>
+                  Select
+                </MenuItem>
+                <MenuItem value="arima">Arima</MenuItem>
+                <MenuItem value="prophet">Prophet</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
+      </Grid>
+
+      {openModal.open && (
+        <AlertModal
+          isOpen={openModal.open}
+          message={openModal.message}
+          closeModalHandler={closeModalHandler}
+        />
       )}
-    </Grid>
+    </>
   );
 };

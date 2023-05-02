@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Tanvi Kulkarni",
+    "image": "/images/tanvi.jpeg",
+    "designation": "Data Science Student at Indiana University Bloomington"
+  },
+
+  {
+    "name": "Harshita Harish",
+    "image": "/images/harshita.jpeg",
+    "designation": "Data Science Student at Indiana University Bloomington"
+  },
+
+  {
+    "name": "Raj Chavan",
+    "image": "/images/raj.jpeg",
+    "designation": "Computer Science Student at Indiana University Bloomington"
+  },
+  {
+    "name": "Shubham Bhagat",
+    "image": "/images/shubham.jpeg",
+    "designation": "Computer Science Student at Indiana University Bloomington"
+  }
+]

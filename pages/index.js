@@ -5,6 +5,8 @@ import Head from "next/head";
 import { HeroImage } from "@/components/landingpage/HeroImage";
 import { AboutInfo } from "@/components/landingpage/AboutInfo";
 
+import { Team } from "@/components/landingpage/Team";
+
 export default function Home() {
   return (
     <>
@@ -59,6 +61,9 @@ export default function Home() {
             <AboutInfo />
           </Container>
         </Box>
+        <Container maxWidth="lg">
+          <Team />
+        </Container>
       </Container>
     </>
   );

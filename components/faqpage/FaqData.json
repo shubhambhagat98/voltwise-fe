@@ -1,0 +1,39 @@
+[
+  {
+    "question": "What is the purpose of the Energy Demand and Net Generation Forecasting platform?",
+    "answer": "Our Energy Demand and Net Generation Forecasting platform aims to provide utilities and energy providers with an accurate, and automated solution for forecasting energy demand across the United States. The platform helps optimize energy production and distribution, reduce waste, and improve overall efficiency in the energy industry."
+  },
+
+  {
+    "question": "What technology stack does the platform use?",
+    "answer": "The platform is built using various AWS services, such as Amazon S3, Amazon SageMaker, Amazon CloudWatch, and AWS Lambda. The frontend is developed using Next.js and deployed on Vercel. The main programming languages used are JavaScript and Python."
+  },
+  {
+    "question": "How does the platform ensure accurate energy demand and net generation forecasting?",
+    "answer": "The platform collects historical energy data, preprocesses it, and stores it in an S3 bucket. It then employs time series algorithms to predict future trends. The machine learning model is trained and deployed using Amazon SageMaker, with optimized hyperparameters to improve forecast accuracy. The model is automatically retrained periodically, ensuring up-to-date predictions."
+  },
+  {
+    "question": "How is the frontend designed?",
+    "answer": "Our frontend is designed using Next.js, featuring an interactive and visually engaging user interface. The frontend displays various data visualizations, such as graphs, charts, and tables, enabling users to gain deeper insights into energy demand patterns. The frontend is connected to backend services like Amazon S3, Amazon SageMaker, and AWS Lambda for seamless integration and data retrieval."
+  },
+  {
+    "question": "How often are the energy demand forecasts updated?",
+    "answer": "Energy demand and net generation forecasts are updated daily. Amazon EventBridge is invoked to trigger SageMaker, which makes predictions and stores them on Amazon S3. The AWS Lambda function retrieves these predictions and displays them on the frontend."
+  },
+  {
+    "question": "How can I access the platform?",
+    "answer": "Simply visit our website and navigate to the Plot or Compare section. There, you can explore various visualizations of energy demand and net generation data, as well as view the latest forecasted energy demand and net generation patterns."
+  },
+  {
+    "question": "What is the source of the energy demand data used in the platform?",
+    "answer": "Our platform sources energy demand data from the U.S. Energy Information Administration (EIA), a reputable and reliable source for energy-related information. You can learn more about EIA and their data by visiting their website: https://www.eia.gov/electricity/."
+  },
+  {
+    "question": "How reliable is the energy demand data from EIA?",
+    "answer": "The U.S. Energy Information Administration (EIA) is a well-established and reputable source of energy-related data. EIA adheres to strict data collection and reporting standards, ensuring that the data provided is accurate, reliable, and up-to-date."
+  },
+  {
+    "question": "Can I access the raw EIA data directly?",
+    "answer": "Yes, you can access the raw data provided by EIA directly from their website: https://www.eia.gov/electricity/. EIA offers a variety of tools and resources to help you explore and analyze their data, including APIs, Excel downloads, and interactive data browsers."
+  }
+]
