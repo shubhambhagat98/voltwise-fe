@@ -20,5 +20,10 @@
     "name": "Shubham Bhagat",
     "image": "/images/shubham.jpeg",
     "designation": "Computer Science Student at Indiana University Bloomington"
+  },
+  {
+    "name": "Mahadevan Iyer",
+    "image": "/images/maddy.jpeg",
+    "designation": "Data Science Student at Indiana University Bloomington"
   }
 ]
