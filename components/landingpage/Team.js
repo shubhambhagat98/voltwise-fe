@@ -99,6 +99,7 @@ export const Team = () => {
           </Grid>
         ) : (
           <Grid
+            key={idx}
             container
             direction={{
               xs: "column-reverse",

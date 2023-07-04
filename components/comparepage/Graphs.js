@@ -43,6 +43,7 @@ export const Graphs = () => {
     isLoading: isLoadingRegion1,
     isError: isErrorRegion1,
     error: errorRegion1,
+    isFetching: isFetchingRegion1,
   } = useQuery(
     ["compare-graph-data-region1", region1, model, frequency, timePeriod],
     () => fetchData(region1, model, frequency, timePeriod),
@@ -56,6 +57,7 @@ export const Graphs = () => {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      keepPreviousData: true,
     }
   );
 
@@ -69,6 +71,7 @@ export const Graphs = () => {
     isLoading: isLoadingRegion2,
     isError: isErrorRegion2,
     error: errorRegion2,
+    isFetching: isFetchingRegion2,
   } = useQuery(
     ["compare-graph-data-region2", region2, model, frequency, timePeriod],
     () => fetchData(region2, model, frequency, timePeriod),
@@ -78,10 +81,11 @@ export const Graphs = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 5 * 60 * 1000, // 3 minutes
+      staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      keepPreviousData: true,
     }
   );
 
@@ -143,41 +147,45 @@ export const Graphs = () => {
     >
       <Grid item xs={12} lg={6}>
         <Graph
-          actualdata={isLoadingRegion1 ? [] : region1HistoricGenerationData}
-          predictedData={isLoadingRegion1 ? [] : region1ForecastGenerationData}
+          actualdata={region1HistoricGenerationData}
+          predictedData={region1ForecastGenerationData}
           type="Net Generation"
           region={region1}
           isLoading={isLoadingRegion1}
+          isFetching={isFetchingRegion1}
         />
       </Grid>
 
       <Grid item xs={12} lg={6}>
         <Graph
-          actualdata={isLoadingRegion2 ? [] : region2HistoricGenerationData}
-          predictedData={isLoadingRegion2 ? [] : region2ForecastGenerationData}
+          actualdata={region2HistoricGenerationData}
+          predictedData={region2ForecastGenerationData}
           type="Net Generation"
           region={region2}
           isLoading={isLoadingRegion2}
+          isFetching={isFetchingRegion2}
         />
       </Grid>
 
       <Grid item xs={12} lg={6}>
         <Graph
-          actualdata={isLoadingRegion1 ? [] : region1HistoricDemandData}
-          predictedData={isLoadingRegion1 ? [] : region1ForecastDemandData}
+          actualdata={region1HistoricDemandData}
+          predictedData={region1ForecastDemandData}
           type="Net Demand"
           region={region1}
           isLoading={isLoadingRegion1}
+          isFetching={isFetchingRegion1}
         />
       </Grid>
 
       <Grid item xs={12} lg={6}>
         <Graph
-          actualdata={isLoadingRegion2 ? [] : region2HistoricDemandData}
-          predictedData={isLoadingRegion2 ? [] : region2ForecastDemandData}
+          actualdata={region2HistoricDemandData}
+          predictedData={region2ForecastDemandData}
           type="Net Demand"
           region={region2}
           isLoading={isLoadingRegion2}
+          isFetching={isFetchingRegion2}
         />
       </Grid>
     </Grid>

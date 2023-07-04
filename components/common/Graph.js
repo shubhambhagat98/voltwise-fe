@@ -57,6 +57,7 @@ export const Graph = ({
   type,
   region,
   isLoading,
+  isFetching,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -294,17 +295,17 @@ export const Graph = ({
         }}
         overflow={"hidden"}
       >
-        {isLoading && (
+        {(isLoading || isFetching) && (
           <CircularProgress
             sx={{
               position: "absolute",
               top: "40%",
-              left: "50%",
+              left: "45%",
               transform: "translate(-50%, -50%)",
               color: theme.palette.secondary.main,
-              zIndex: 3,
+              zIndex: 100,
             }}
-            size={60}
+            size={80}
           />
         )}
         <ReactApexChart

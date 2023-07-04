@@ -41,6 +41,7 @@ export const Graphs = () => {
     isLoading,
     isError,
     error,
+    isFetching,
   } = useQuery(
     ["plot-graph-data", region, model, frequency, timePeriod],
     () => fetchData(region, model, frequency, timePeriod),
@@ -50,10 +51,11 @@ export const Graphs = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 5 * 60 * 1000, // 3 minutes
+      staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      keepPreviousData: true,
     }
   );
 
@@ -91,21 +93,25 @@ export const Graphs = () => {
     >
       <Grid item xs={12} lg={6}>
         <Graph
-          actualdata={isLoading ? [] : historicDemandData}
-          predictedData={isLoading ? [] : forecastDemandData}
+          actualdata={historicDemandData}
+          predictedData={forecastDemandData}
           type="Net Generation"
           region={region}
           isLoading={isLoading}
+          isFetching={isFetching}
+          group="plot-graph"
         />
       </Grid>
 
       <Grid item xs={12} lg={6}>
         <Graph
-          actualdata={isLoading ? [] : historicGenerationData}
-          predictedData={isLoading ? [] : forecastGenerationData}
+          actualdata={historicGenerationData}
+          predictedData={forecastGenerationData}
           type="Net Demand"
           region={region}
           isLoading={isLoading}
+          isFetching={isFetching}
+          group="plot-graph"
         />
       </Grid>
     </Grid>
