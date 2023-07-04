@@ -95,7 +95,7 @@ export const Graphs = () => {
         <Graph
           actualdata={historicDemandData}
           predictedData={forecastDemandData}
-          type="Net Generation"
+          type="Net Demand"
           region={region}
           isLoading={isLoading}
           isFetching={isFetching}
@@ -107,7 +107,7 @@ export const Graphs = () => {
         <Graph
           actualdata={historicGenerationData}
           predictedData={forecastGenerationData}
-          type="Net Demand"
+          type="Net Generation"
           region={region}
           isLoading={isLoading}
           isFetching={isFetching}
