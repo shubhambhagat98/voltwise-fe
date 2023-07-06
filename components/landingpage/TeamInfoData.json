@@ -1,5 +1,15 @@
 [
   {
+    "name": "Shubham Bhagat",
+    "image": "/images/shubham.png",
+    "designation": "Computer Science Student at Indiana University Bloomington"
+  },
+  {
+    "name": "Mahadevan Iyer",
+    "image": "/images/maddy.jpeg",
+    "designation": "Data Science Student at Indiana University Bloomington"
+  },
+  {
     "name": "Tanvi Kulkarni",
     "image": "/images/tanvi.jpeg",
     "designation": "Computer Science Student at Indiana University Bloomington"
@@ -15,15 +25,5 @@
     "name": "Raj Chavan",
     "image": "/images/raj.jpeg",
     "designation": "Computer Science Student at Indiana University Bloomington"
-  },
-  {
-    "name": "Shubham Bhagat",
-    "image": "/images/shubham.png",
-    "designation": "Computer Science Student at Indiana University Bloomington"
-  },
-  {
-    "name": "Mahadevan Iyer",
-    "image": "/images/maddy.jpeg",
-    "designation": "Data Science Student at Indiana University Bloomington"
   }
 ]

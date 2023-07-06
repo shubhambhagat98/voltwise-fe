@@ -18,6 +18,10 @@ export const HeroImage = () => {
             sm: "300px",
             md: "400px",
           },
+          mt: {
+            xs: "3rem",
+            sm: "0rem",
+          },
 
           // border: "1px solid blue",
         }}

@@ -4,6 +4,7 @@ import {
   QueryStatsOutlined,
   CompareOutlined,
   HelpOutlineOutlined,
+  DashboardOutlined,
 } from "@mui/icons-material";
 
 export const PublicLinks = [
@@ -33,5 +34,10 @@ export const PublicLinks = [
     title: "FAQs",
     to: "/faqs",
     icon: <HelpOutlineOutlined />,
+  },
+  {
+    title: "Architecture",
+    to: "/architecture",
+    icon: <DashboardOutlined />,
   },
 ];

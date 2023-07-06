@@ -1,28 +1,39 @@
-import { Box, Fade, Slide, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "@/theme/colorTokens";
+import "aos/dist/aos.css";
+import AOS from "aos";
+import { useEffect } from "react";
 
 export const HeroInfo = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  useEffect(() => {
+    AOS.init({
+      once: true,
+    });
+    AOS.refresh();
+  }, []);
   return (
-    <Slide in direction="right" timeout={600}>
-      <Box
-        sx={{
-          paddingLeft: {
-            xs: "0",
-            sm: "1.5rem",
-            md: "3rem",
-          },
-          // border: "1px solid green",
-          textAlign: {
-            xs: "center",
-            sm: "left",
-          },
-          marginTop: {
-            xs: "1rem",
-          },
-        }}
-      >
+    <Box
+      sx={{
+        paddingLeft: {
+          xs: "0",
+          sm: "1.5rem",
+          md: "3rem",
+        },
+        // border: "1px solid green",
+        textAlign: {
+          xs: "center",
+          sm: "left",
+        },
+        marginTop: {
+          xs: "3rem",
+          sm: "2rem",
+          md: "1rem",
+        },
+      }}
+    >
+      <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="250">
         <Typography
           sx={{
             color: `${colors.blueAccent[500]} `,
@@ -37,6 +48,8 @@ export const HeroInfo = () => {
         >
           VoltWise
         </Typography>
+      </div>
+      <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="350">
         <Typography
           sx={{
             marginBottom: { xs: "1rem", sm: "2.5rem" },
@@ -45,6 +58,8 @@ export const HeroInfo = () => {
         >
           US Energy Demand and Generation Forecasting Solution
         </Typography>
+      </div>
+      <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="450">
         <Typography
           variant="h6"
           sx={{
@@ -55,7 +70,7 @@ export const HeroInfo = () => {
           demand and net generation for different regions within the United
           States
         </Typography>
-      </Box>
-    </Slide>
+      </div>
+    </Box>
   );
 };

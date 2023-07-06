@@ -8,7 +8,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 // client-side cache, shared for the whole session of the user in the browser
 const clientSideEmotionCache = createEmotionCache();
@@ -20,6 +20,7 @@ export default function App({
 }) {
   const theme = useMuiTheme();
   const queryClient = useRef(new QueryClient());
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
