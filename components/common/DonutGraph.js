@@ -58,7 +58,7 @@ export const DonutGraph = ({ isLoading, donutSeries, title }) => {
       ...prev,
       responsive: [
         {
-          breakpoint: 800,
+          breakpoint: 850,
           options: {
             // chart: {
             //   width: 200,
