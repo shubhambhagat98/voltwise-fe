@@ -41,7 +41,11 @@ export const Faqs = () => {
       }}
     >
       <Box
-        backgroundColor={colors.primary[400]}
+        backgroundColor={
+          theme.palette.mode === "dark"
+            ? colors.primary[500]
+            : colors.primary[400]
+        }
         borderRadius="10px"
         // height={300}
         // p={2}
@@ -58,7 +62,11 @@ export const Faqs = () => {
               backgroundColor: "transparent !important",
             },
             "&:not(:last-child)": {
-              borderBottom: `1px solid ${colors.primary[500]}`,
+              borderBottom: `2px solid ${
+                theme.palette.mode === "dark"
+                  ? colors.primary[600]
+                  : colors.primary[500]
+              }`,
             },
           },
           "& .MuiAccordian-root": {
@@ -91,7 +99,7 @@ export const Faqs = () => {
               }}
             >
               <Typography
-                color={theme.palette.secondary.main}
+                color={colors.blueAccent[600]}
                 variant="h4"
                 sx={{ fontWeight: 500 }}
               >
