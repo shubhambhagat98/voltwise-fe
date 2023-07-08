@@ -165,11 +165,11 @@ export const Graph = ({ graphData, isLoading }) => {
             fontSize: "8px",
           },
           formatter: function (val) {
-            return (val / 1000).toFixed(0) + "gW";
+            return (val / 1000).toFixed(0) + "GW";
           },
         },
         title: {
-          text: `(gW)`,
+          text: `(GW)`,
           style: {
             color: theme.palette.neutral.light,
           },
@@ -186,7 +186,7 @@ export const Graph = ({ graphData, isLoading }) => {
         // },
         y: {
           formatter: function (val) {
-            return (val / 1000).toFixed(2) + "gW";
+            return (val / 1000).toFixed(2) + "GW";
           },
         },
       },
