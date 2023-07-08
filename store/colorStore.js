@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 import { usePersistedCompareStore } from "./compareStore";
 import { usePersistedPlotStore } from "./plotStore";
+import { usePersistedAnalyticsStore } from "./analyticsStore";
 
 const empytyState = (set, get) => ({
   colorMode: "dark",
@@ -34,4 +35,5 @@ if (process.env.NODE_ENV === "development") {
   mountStoreDevtool("voltwise-color-mode", usePersistedColorStore);
   mountStoreDevtool("voltwise-compare-options", usePersistedCompareStore);
   mountStoreDevtool("voltwise-plot-options", usePersistedPlotStore);
+  mountStoreDevtool("voltwise-analytics-options", usePersistedAnalyticsStore);
 }

@@ -190,11 +190,11 @@ export const Graph = ({
             colors: theme.palette.neutral.light,
           },
           formatter: function (val) {
-            return (val / 1000).toFixed(0) + "k";
+            return (val / 1000).toFixed(0) + "GW";
           },
         },
         title: {
-          text: `${type} (kWh)`,
+          text: `${type} (GW)`,
           style: {
             color: theme.palette.neutral.light,
           },
@@ -211,7 +211,7 @@ export const Graph = ({
         },
         y: {
           formatter: function (val) {
-            return (val / 1000).toFixed(2) + "kWh";
+            return (val / 1000).toFixed(2) + "GW";
           },
         },
       },
@@ -225,7 +225,11 @@ export const Graph = ({
 
   return (
     <Box
-      backgroundColor={colors.primary[400]}
+      backgroundColor={
+        theme.palette.mode === "dark"
+          ? colors.primary[500]
+          : colors.primary[400]
+      }
       borderRadius="10px"
       //   my={2}
       p={2}

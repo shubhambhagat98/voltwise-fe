@@ -13,7 +13,7 @@ export const useMuiTheme = () => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[500],
+              main: colors.primary[600],
             },
             secondary: {
               main: colors.blueAccent[500],
@@ -24,8 +24,8 @@ export const useMuiTheme = () => {
               light: colors.grey[300],
             },
             background: {
-              default: colors.primary[500],
-              paper: colors.primary[500],
+              default: colors.primary[600],
+              paper: colors.primary[600],
             },
             highlight: {
               text: colors.primary[500],

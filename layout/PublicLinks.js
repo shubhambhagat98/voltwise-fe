@@ -1,10 +1,10 @@
 import {
   HomeOutlined,
-  InfoOutlined,
   QueryStatsOutlined,
   CompareOutlined,
   HelpOutlineOutlined,
   DashboardOutlined,
+  AnalyticsOutlined,
 } from "@mui/icons-material";
 
 export const PublicLinks = [
@@ -25,11 +25,11 @@ export const PublicLinks = [
     to: "/compare",
     icon: <CompareOutlined />,
   },
-  // {
-  //   title: "About",
-  //   to: "/about",
-  //   icon: <InfoOutlined />,
-  // },
+  {
+    title: "Analytics",
+    to: "/analytics",
+    icon: <AnalyticsOutlined />,
+  },
   {
     title: "FAQs",
     to: "/faqs",

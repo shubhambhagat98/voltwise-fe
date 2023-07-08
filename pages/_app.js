@@ -23,11 +23,11 @@ export default function App({
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-
       <ThemeProvider theme={theme}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+
         <QueryClientProvider client={queryClient.current}>
           <CssBaseline />
           <Layout>

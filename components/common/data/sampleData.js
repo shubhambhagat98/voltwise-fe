@@ -1,3 +1,131 @@
+export const analyticsData = {
+  region: "CAR",
+  year: 2015,
+  monthlyGraph: {
+    aggregateDemand: [
+      21237492.0, 18720278.0, 20306324.0, 19564528.0, 21336020.0, 24742633.0,
+      26935101.0, 29002852.0, 27240453.0, 22583063.0, 20181046.0, 22037869.0,
+    ],
+    aggregateGeneration: [
+      14175103.0, 12863062.0, 14326944.0, 15351280.0, 16645943.0, 18644866.0,
+      21688341.0, 22994791.0, 21220503.0, 17838367.0, 15824169.0, 17364187.0,
+    ],
+    averageDemand: [
+      685080.3870967742, 668581.3571428572, 655042.7096774194,
+      652150.9333333333, 688258.7096774194, 824754.4333333333,
+      868874.2258064516, 935575.8709677419, 908015.1, 728485.9032258064,
+      672701.5333333333, 710899.0,
+    ],
+    averageGeneration: [
+      457261.3870967742, 459395.0714285714, 462159.48387096776,
+      511709.3333333333, 536965.9032258064, 621495.5333333333,
+      699623.9032258064, 741767.4516129033, 707350.1, 575431.1935483871,
+      527472.3, 560135.0645161291,
+    ],
+  },
+  quarterlyGraph: {
+    aggregateDemand: [60264094.0, 65643181.0, 83178406.0, 64801978.0],
+    aggregateGeneration: [41365109.0, 50642089.0, 65903635.0, 51026723.0],
+  },
+  tableData: [
+    {
+      Month: 7,
+      Aggregate_Demand: 22163727.0,
+      Aggregate_Generation: 21896774.0,
+      Demand_pct_change: 0.0,
+      Net_generation_pct_change: 0.0,
+      Average_Demand: 714958.9354838709,
+      Average_Generation: 706347.5483870967,
+      Generation_to_demand_ratio: 0.9879554102069567,
+    },
+    {
+      Month: 8,
+      Aggregate_Demand: 20967633.0,
+      Aggregate_Generation: 20735586.0,
+      Demand_pct_change: -5.396628464156771,
+      Net_generation_pct_change: -5.303009475277043,
+      Average_Demand: 676375.2580645161,
+      Average_Generation: 668889.8709677419,
+      Generation_to_demand_ratio: 0.9889330855800461,
+    },
+    {
+      Month: 9,
+      Aggregate_Demand: 18047877.0,
+      Aggregate_Generation: 17699258.0,
+      Demand_pct_change: -13.92506249990163,
+      Net_generation_pct_change: -14.643077846943896,
+      Average_Demand: 601595.9,
+      Average_Generation: 589975.2666666667,
+      Generation_to_demand_ratio: 0.9806836560333384,
+    },
+    {
+      Month: 10,
+      Aggregate_Demand: 15767355.0,
+      Aggregate_Generation: 15585183.0,
+      Demand_pct_change: -12.63595712670249,
+      Net_generation_pct_change: -11.944427274860903,
+      Average_Demand: 508624.3548387097,
+      Average_Generation: 502747.8387096774,
+      Generation_to_demand_ratio: 0.9884462549362274,
+    },
+    {
+      Month: 11,
+      Aggregate_Demand: 15733031.0,
+      Aggregate_Generation: 15474602.0,
+      Demand_pct_change: -0.21769028476875674,
+      Net_generation_pct_change: -0.709526477809086,
+      Average_Demand: 524434.3666666667,
+      Average_Generation: 515820.06666666665,
+      Generation_to_demand_ratio: 0.9835741123245737,
+    },
+    {
+      Month: 12,
+      Aggregate_Demand: 16502400.0,
+      Aggregate_Generation: 16283023.0,
+      Demand_pct_change: 4.890151173032065,
+      Net_generation_pct_change: 5.224179594408951,
+      Average_Demand: 532335.4838709678,
+      Average_Generation: 525258.8064516129,
+      Generation_to_demand_ratio: 0.9867063578630987,
+    },
+  ],
+  aggregateDemandGivenYear: {
+    value: 109182023.0,
+    percentChange: 0,
+  },
+  aggregateGenerationGivenYear: {
+    value: 107674426.0,
+    percentChange: 0,
+  },
+  aggregateDemandCurrentMonth: {
+    value: 22037869.0,
+    percentChange: 9.200826359545488,
+  },
+  aggregateGenerationCurrentMonth: {
+    value: 3325946.0,
+    percentChange: -81.55604615765888,
+  },
+};
+
+export const monthlyGraph2 = {
+  aggregateDemand: [
+    21619108.0, 19056454.0, 20993123.0, 19185482.0, 20850595.0, 20531348.0,
+    4772959.0, 0, 0, 0, 0, 0,
+  ],
+  aggregateGeneration: [
+    17009908.0, 15434549.0, 17427869.0, 17273846.0, 16792845.0, 18032717.0,
+    4089042.0, 0, 0, 0, 0, 0,
+  ],
+  averageDemand: [
+    697390.5806451613, 680587.6428571428, 677197.5161290322, 639516.0666666667,
+    672599.8387096775, 684378.2666666667, 795493.1666666666, 0, 0, 0, 0, 0,
+  ],
+  averageGeneration: [
+    548706.7096774194, 551233.8928571428, 562189.3225806452, 575794.8666666667,
+    541704.6774193548, 601090.5666666667, 681507.0, 0, 0, 0, 0, 0,
+  ],
+};
+
 export const actualdata = [
   {
     x: "2022-01-01",

@@ -61,7 +61,7 @@ export const Graphs = () => {
 
   useEffect(() => {
     return () => {
-      if (isLoading) {
+      if (isLoading || isFetching) {
         queryClient.cancelQueries([
           "plot-graph-data",
           region,
@@ -71,7 +71,7 @@ export const Graphs = () => {
         ]);
       }
     };
-  }, [isLoading]);
+  }, [isLoading, isFetching]);
 
   const historicDemandData = graphData.historic_demand_data;
   const historicGenerationData = graphData.historic_generation_data;
