@@ -128,19 +128,21 @@ export const Graph = ({
             borderColor: theme.palette.secondary.main,
             strokeDashArray: 0,
             label: {
-              text: "Today",
+              text: "Forecast begin",
               borderColor: theme.palette.secondary.main,
               style: {
                 color: colors.primary[400],
                 background: theme.palette.secondary.main,
+                fontSize: "10px",
               },
-              // position: "bottom",
+              position: "top",
+              offsetY: -5,
             },
           },
         ],
       },
     }));
-  }, [isLoading]);
+  }, [isLoading, actualdata]);
 
   useEffect(() => {
     setOptions((prevState) => ({

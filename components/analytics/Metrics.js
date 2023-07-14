@@ -1,7 +1,14 @@
-import { useTheme, Box, Typography } from "@mui/material";
+import { useTheme, Box, Typography, Divider } from "@mui/material";
 import { tokens } from "@/theme/colorTokens";
+import { MetricBox } from "./MetricBox";
 
-export const Metrics = () => {
+export const Metrics = ({
+  totalEnergyImport,
+  totalEnergyExport,
+  isLoading,
+  region,
+  year,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -24,12 +31,81 @@ export const Metrics = () => {
         variant="h5"
         sx={{
           mb: {
-            xs: 1,
+            md: 1,
+            lg: 2,
           },
         }}
       >
-        Some Metrics
+        {`Energy Exchange Insights`}
       </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+            md: "column",
+          },
+          height: "100%",
+          // space between elements vertically
+          justifyContent: {
+            sm: "space-evenly",
+            md: "flex-start",
+          },
+        }}
+      >
+        <MetricBox
+          title="Total Energy Import this year"
+          value={totalEnergyImport}
+          isLoading={isLoading}
+        />
+        <Divider
+          sx={{
+            display: {
+              xs: "flex",
+              sm: "none",
+              md: "flex",
+            },
+            marginBottom: {
+              xs: 1,
+              md: 2,
+            },
+            marginTop: {
+              xs: 1,
+              md: 2,
+            },
+          }}
+        />
+        <MetricBox
+          title="Total Energy Export this year"
+          value={totalEnergyExport}
+          isLoading={isLoading}
+        />
+        <Divider
+          sx={{
+            display: {
+              xs: "flex",
+              sm: "none",
+              md: "flex",
+            },
+            marginBottom: {
+              xs: 1,
+              md: 2,
+            },
+            marginTop: {
+              xs: 1,
+              md: 2,
+            },
+          }}
+        />
+
+        <MetricBox
+          title="Energy Trade Balance this year"
+          value={totalEnergyImport - totalEnergyExport}
+          isLoading={isLoading}
+        />
+      </Box>
     </Box>
   );
 };

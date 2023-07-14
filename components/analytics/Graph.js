@@ -201,6 +201,7 @@ export const Graph = ({ graphData, isLoading }) => {
   return (
     <Box
       width="100%"
+      height="100%"
       sx={{
         position: "relative",
       }}
@@ -218,6 +219,7 @@ export const Graph = ({ graphData, isLoading }) => {
         p={2}
         boxShadow={theme.shadows[10]}
         width="100%"
+        height="100%"
       >
         <Typography
           variant="h5"
@@ -234,10 +236,10 @@ export const Graph = ({ graphData, isLoading }) => {
             mt: 2.5,
             mr: 1,
 
-            height: {
+            minHeight: {
               xs: "280px",
 
-              md: "300px",
+              md: "100%",
               lg: "400px",
             },
             ".apexcharts-menu": {

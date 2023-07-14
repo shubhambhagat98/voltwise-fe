@@ -1,84 +1,13 @@
 import { Grid } from "@mui/material";
 import { Graph } from "../common/Graph";
-import { usePlotStore } from "@/store/plotStore";
-import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-const fetchData = async (region, model, frequency, time) => {
-  const response = await axios.get(API_URL + `/graph-data`, {
-    params: {
-      region: region,
-      model: model,
-      frequency: frequency,
-      time: time,
-    },
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  return response.data;
-};
-
-export const Graphs = () => {
-  const region = usePlotStore((state) => state.region);
-  const model = usePlotStore((state) => state.model);
-  const frequency = usePlotStore((state) => state.frequency);
-  const timePeriod = usePlotStore((state) => state.timePeriod);
-
-  const queryClient = useQueryClient();
-
-  const {
-    data: graphData = {
-      historic_demand_data: [],
-      historic_generation_data: [],
-      forecast_demand_data: [],
-      forecast_generation_data: [],
-    },
-    isLoading,
-    isError,
-    error,
-    isFetching,
-  } = useQuery(
-    ["plot-graph-data", region, model, frequency, timePeriod],
-    () => fetchData(region, model, frequency, timePeriod),
-    {
-      enabled:
-        region !== undefined &&
-        model !== undefined &&
-        frequency !== undefined &&
-        timePeriod !== null,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      keepPreviousData: true,
-    }
-  );
-
-  useEffect(() => {
-    return () => {
-      if (isLoading || isFetching) {
-        queryClient.cancelQueries([
-          "plot-graph-data",
-          region,
-          model,
-          frequency,
-          timePeriod,
-        ]);
-      }
-    };
-  }, [isLoading, isFetching]);
-
-  const historicDemandData = graphData.historic_demand_data;
-  const historicGenerationData = graphData.historic_generation_data;
-
-  const forecastDemandData = graphData.forecast_demand_data;
-  const forecastGenerationData = graphData.forecast_generation_data;
-
+export const Graphs = ({
+  historicData: { historicDemandData, historicGenerationData },
+  forecastData: { forecastDemandData, forecastGenerationData },
+  region,
+  isLoading,
+  isFetching,
+}) => {
   return (
     <Grid
       container

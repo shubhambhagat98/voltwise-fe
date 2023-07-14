@@ -6,7 +6,11 @@ import createEmotionCache from "@/lib/createEmotionCache";
 import { useMuiTheme } from "@/theme/theme";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+} from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRef, useEffect } from "react";
 
@@ -30,9 +34,11 @@ export default function App({
 
         <QueryClientProvider client={queryClient.current}>
           <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Hydrate>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ThemeProvider>

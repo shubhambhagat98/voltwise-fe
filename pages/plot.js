@@ -2,8 +2,94 @@ import { Options } from "@/components/plotpage/Options";
 import { Graphs } from "@/components/plotpage/Graphs";
 import { Container } from "@mui/material";
 import Head from "next/head";
+import { usePlotStore } from "@/store/plotStore";
+import {
+  useQuery,
+  useQueryClient,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect } from "react";
+
+const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const fetchData = async (region, model, frequency, time) => {
+  const response = await axios.get(API_URL + `/graph-data`, {
+    params: {
+      region: region,
+      model: model,
+      frequency: frequency,
+      time: time,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};
 
 const plot = () => {
+  const region = usePlotStore((state) => state.region);
+  const model = usePlotStore((state) => state.model);
+  const frequency = usePlotStore((state) => state.frequency);
+  const timePeriod = usePlotStore((state) => state.timePeriod);
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: graphData = {
+      historic_demand_data: [],
+      historic_generation_data: [],
+      forecast_demand_data: [],
+      forecast_generation_data: [],
+    },
+    isLoading,
+    isError,
+    error,
+    isFetching,
+  } = useQuery(
+    ["line-graph-data", region, model, frequency, timePeriod],
+    () => fetchData(region, model, frequency, timePeriod),
+    {
+      enabled:
+        region !== undefined &&
+        model !== undefined &&
+        frequency !== undefined &&
+        timePeriod !== null,
+      staleTime: 10 * 60 * 1000, // 10 minutes
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      keepPreviousData: true,
+    }
+  );
+
+  useEffect(() => {
+    return () => {
+      if (isLoading || isFetching) {
+        queryClient.cancelQueries([
+          "line-graph-data",
+          region,
+          model,
+          frequency,
+          timePeriod,
+        ]);
+      }
+    };
+  }, [isLoading, isFetching]);
+
+  const historicData = {
+    historicDemandData: graphData.historic_demand_data,
+    historicGenerationData: graphData.historic_generation_data,
+  };
+
+  const forecastData = {
+    forecastDemandData: graphData.forecast_demand_data,
+    forecastGenerationData: graphData.forecast_generation_data,
+  };
+
   return (
     <>
       <Head>
@@ -14,10 +100,39 @@ const plot = () => {
       </Head>
       <Container maxWidth="xl">
         <Options />
-        <Graphs />
+        <Graphs
+          historicData={historicData}
+          forecastData={forecastData}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          region={region}
+        />
       </Container>
     </>
   );
+};
+
+export const getStaticProps = async () => {
+  const region = "CAL";
+  const frequency = "D";
+  const timePeriod = "3-months";
+  const model = "prophet";
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    ["line-graph-data", region, model, frequency, timePeriod],
+    () => fetchData(region, model, frequency, timePeriod)
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+
+    // Next.js will attempt to re-generate the page every 60 seconds:
+    revalidate: 6 * 60 * 60,
+  };
 };
 
 export default plot;
