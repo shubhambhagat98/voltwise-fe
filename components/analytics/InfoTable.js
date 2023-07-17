@@ -110,6 +110,13 @@ const PercentChange = ({
   );
 };
 
+const getFormattedValue = (value) => {
+  return `${(value / 1000).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })} GW`;
+};
+
 const SkeletonTableBody = () =>
   [...Array(6)].map((_, index) => (
     <TableRow
@@ -206,7 +213,7 @@ export const InfoTable = ({ isLoading, tableData }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {isLoading ? (
+              {tableData.length === 0 ? (
                 <SkeletonTableBody />
               ) : (
                 tableData.map((row, index) => (
@@ -222,12 +229,12 @@ export const InfoTable = ({ isLoading, tableData }) => {
                     </TableCell>
                     <TableCell>
                       <Typography>
-                        {(row.Aggregate_Demand / 1000).toFixed(2) + " GW"}
+                        {getFormattedValue(row.Aggregate_Demand)}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography>
-                        {(row.Aggregate_Generation / 1000).toFixed(2) + " GW"}
+                        {getFormattedValue(row.Aggregate_Generation)}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -248,12 +255,12 @@ export const InfoTable = ({ isLoading, tableData }) => {
                     </TableCell>
                     <TableCell>
                       <Typography>
-                        {(row.Average_Demand / 1000).toFixed(2) + " GW"}
+                        {getFormattedValue(row.Average_Demand)}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography>
-                        {(row.Average_Generation / 1000).toFixed(2) + " GW"}
+                        {getFormattedValue(row.Average_Generation)}
                       </Typography>
                     </TableCell>
                     <TableCell align="center">

@@ -41,7 +41,7 @@ const donoutChartOptions = {
     },
   ],
 };
-const seriesList = [44.5, 55, 13, 43];
+
 export const DonutGraph = ({ isLoading, donutSeries, title }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

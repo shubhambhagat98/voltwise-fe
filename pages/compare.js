@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Options } from "@/components/comparepage/Options";
 import { Graphs } from "@/components/comparepage/Graphs";
 import { useCompareStore } from "@/store/compareStore";
+import ErrorBox from "@/components/common/ErrorBox";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -50,6 +51,7 @@ const compare = () => {
     isError: isErrorRegion1,
     error: errorRegion1,
     isFetching: isFetchingRegion1,
+    refetch: refetchRegion1,
   } = useQuery(
     ["line-graph-data", region1, model, frequency, timePeriod],
     () => fetchData(region1, model, frequency, timePeriod),
@@ -59,7 +61,8 @@ const compare = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 10 * 60 * 1000, // 10 minutes
+      staleTime: 20 * 60 * 2000, // 20 minutes
+      cacheTime: 20 * 60 * 2000, // 20 minutes
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -78,6 +81,7 @@ const compare = () => {
     isError: isErrorRegion2,
     error: errorRegion2,
     isFetching: isFetchingRegion2,
+    refetch: refetchRegion2,
   } = useQuery(
     ["line-graph-data", region2, model, frequency, timePeriod],
     () => fetchData(region2, model, frequency, timePeriod),
@@ -87,7 +91,8 @@ const compare = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 10 * 60 * 1000, // 10 minutes
+      staleTime: 20 * 60 * 2000, // 20 minutes
+      cacheTime: 20 * 60 * 2000, // 20 minutes
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -143,6 +148,8 @@ const compare = () => {
     isFetchingRegion2: isFetchingRegion2,
   };
 
+  const isQueryError = isErrorRegion1 || isErrorRegion2;
+
   return (
     <>
       <Head>
@@ -153,7 +160,17 @@ const compare = () => {
       </Head>
       <Container maxWidth="xl">
         <Options />
-        <Graphs region1Data={region1Data} region2Data={region2Data} />
+        {isQueryError ? (
+          <ErrorBox
+            error={errorRegion1 || errorRegion2}
+            refetch={() => {
+              refetchRegion1();
+              refetchRegion2();
+            }}
+          />
+        ) : (
+          <Graphs region1Data={region1Data} region2Data={region2Data} />
+        )}
       </Container>
     </>
   );

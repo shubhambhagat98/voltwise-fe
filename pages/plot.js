@@ -1,6 +1,6 @@
 import { Options } from "@/components/plotpage/Options";
 import { Graphs } from "@/components/plotpage/Graphs";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import Head from "next/head";
 import { usePlotStore } from "@/store/plotStore";
 import {
@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
+import ErrorBox from "@/components/common/ErrorBox";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -49,6 +50,7 @@ const plot = () => {
     isError,
     error,
     isFetching,
+    refetch,
   } = useQuery(
     ["line-graph-data", region, model, frequency, timePeriod],
     () => fetchData(region, model, frequency, timePeriod),
@@ -58,7 +60,8 @@ const plot = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 10 * 60 * 1000, // 10 minutes
+      staleTime: 20 * 60 * 2000, // 20 minutes
+      cacheTime: 20 * 60 * 2000, // 20 minutes
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -100,13 +103,17 @@ const plot = () => {
       </Head>
       <Container maxWidth="xl">
         <Options />
-        <Graphs
-          historicData={historicData}
-          forecastData={forecastData}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          region={region}
-        />
+        {isError ? (
+          <ErrorBox error={error} refetch={refetch} />
+        ) : (
+          <Graphs
+            historicData={historicData}
+            forecastData={forecastData}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            region={region}
+          />
+        )}
       </Container>
     </>
   );

@@ -36,12 +36,21 @@ const chartOptions = {
   },
 };
 
+const getFormattedValue = (value) => {
+  return `${(value / 1000).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })} GW`;
+};
+
 const formatDateWithDay = (val) => {
   return new Date(val).toLocaleDateString("en-US", {
     day: "numeric",
     month: "short",
     year: "numeric",
   });
+
+  // return val;
 };
 
 const formatDateWithoutDay = (val) => {
@@ -213,7 +222,7 @@ export const Graph = ({
         },
         y: {
           formatter: function (val) {
-            return (val / 1000).toFixed(2) + "GW";
+            return getFormattedValue(val);
           },
         },
       },
@@ -301,7 +310,7 @@ export const Graph = ({
         }}
         overflow={"hidden"}
       >
-        {(isLoading || isFetching) && (
+        {isFetching && (
           <CircularProgress
             sx={{
               position: "absolute",

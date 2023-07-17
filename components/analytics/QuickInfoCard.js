@@ -58,7 +58,7 @@ const customStyles = (theme, colors, isDemand) => ({
 
   metricText: {
     typography: {
-      xs: "h5",
+      xs: "body1",
       sm: "h4",
       md: "h5",
       lg: "h4",
@@ -154,9 +154,13 @@ export const QuickInfoCard = ({ isLoading, title, quickInfo }) => {
               )}
             </Avatar>
           </Stack>
-          {!isLoading ? (
+          {quickInfo?.value ? (
             <Typography sx={styles.metricText}>
-              {(quickInfo?.value / 1000).toFixed(2) + " GW"}
+              {/* {(quickInfo.value / 1000).toFixed(2) + " GW"} */}
+              {`${(quickInfo.value / 1000).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })} GW`}
             </Typography>
           ) : (
             <Skeleton
@@ -179,7 +183,7 @@ export const QuickInfoCard = ({ isLoading, title, quickInfo }) => {
             alignItems="center"
             flexWrap="wrap"
           >
-            {!isLoading ? (
+            {quickInfo?.percentChange !== undefined ? (
               <Typography
                 sx={{
                   ...styles.percentChange,

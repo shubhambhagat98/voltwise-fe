@@ -30,7 +30,7 @@ export const MetricBox = ({ title, value, isLoading }) => {
         {title}
       </Typography>
 
-      {!isLoading ? (
+      {value !== null ? (
         <Typography
           sx={{
             typography: {
@@ -42,7 +42,11 @@ export const MetricBox = ({ title, value, isLoading }) => {
             fontWeight: "600 !important",
           }}
         >
-          {`${value.toFixed(2)} GW`}
+          {/* {`${value.toFixed(2)} GW`} */}
+          {`${(value / 1000).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} GW`}
         </Typography>
       ) : (
         <Skeleton
