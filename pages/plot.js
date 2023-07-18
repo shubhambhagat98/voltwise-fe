@@ -31,7 +31,7 @@ const fetchData = async (region, model, frequency, time) => {
   return response.data;
 };
 
-const plot = () => {
+const plot = ({ revalidateDate }) => {
   const region = usePlotStore((state) => state.region);
   const model = usePlotStore((state) => state.model);
   const frequency = usePlotStore((state) => state.frequency);
@@ -103,6 +103,10 @@ const plot = () => {
       </Head>
       <Container maxWidth="xl">
         <Options />
+        <Box sx={{ height: 20 }}>
+          <p>revalidate plot page at client {revalidateDate}</p>
+        </Box>
+
         {isError ? (
           <ErrorBox error={error} refetch={refetch} />
         ) : (
@@ -132,13 +136,17 @@ export const getStaticProps = async () => {
     () => fetchData(region, model, frequency, timePeriod)
   );
 
+  const revalidateDate = new Date().toLocaleTimeString();
+  console.log("revalidate plot page at server", revalidateDate);
+
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
+      revalidateDate: `revalidate plot page at client: ${revalidateDate}`,
     },
 
-    // Next.js will attempt to re-generate the page every 60 seconds:
-    revalidate: 6 * 60 * 60,
+    // Next.js will attempt to re-generate the page every 10 seconds:
+    revalidate: 10,
   };
 };
 

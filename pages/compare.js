@@ -195,10 +195,16 @@ export const getStaticProps = async () => {
     () => fetchData(region2, model, frequency, timePeriod)
   );
 
+  const revalidateDate = new Date().toLocaleTimeString();
+  console.log("revalidate compare page at server", revalidateDate);
+
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
+      revalidateDate: `revalidate compare page at client: ${revalidateDate}`,
     },
+
+    // Next.js will attempt to re-generate the page every 60 seconds:
     revalidate: 6 * 60 * 60,
   };
 };

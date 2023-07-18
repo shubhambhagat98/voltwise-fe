@@ -31,7 +31,7 @@ export default function App({
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-
+        {console.log(pageProps.revalidateDate)}
         <QueryClientProvider client={queryClient.current}>
           <CssBaseline />
           <Hydrate state={pageProps.dehydratedState}>
