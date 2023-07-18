@@ -138,8 +138,8 @@ export const getStaticProps = async () => {
       dehydratedState: dehydrate(queryClient),
     },
 
-    // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 30,
+    // Next.js will attempt to re-generate the page every 1 hour,
+    revalidate: 3600,
   };
 };
 
