@@ -76,6 +76,8 @@ const analytics = () => {
   );
 
   useEffect(() => {
+    console.log("Analytics page isLoading: ", isLoading);
+    console.log("Analytics page isFetching: ", isFetching);
     return () => {
       if (isLoading || isFetching) {
         queryClient.cancelQueries(["analytics-data", region, year]);

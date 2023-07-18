@@ -101,8 +101,10 @@ const compare = () => {
   );
 
   useEffect(() => {
+    console.log("compare page isLoadingRegion1: ", isLoadingRegion1);
+    console.log("compare page isFetchingRegion1: ", isFetchingRegion1);
     return () => {
-      if (isLoadingRegion1) {
+      if (isLoadingRegion1 || isFetchingRegion1) {
         queryClient.cancelQueries([
           "line-graph-data",
           region1,
@@ -112,11 +114,13 @@ const compare = () => {
         ]);
       }
     };
-  }, [isLoadingRegion1]);
+  }, [isLoadingRegion1, isFetchingRegion1]);
 
   useEffect(() => {
+    console.log("compare page isLoadingRegion2: ", isLoadingRegion2);
+    console.log("compare page isFetchingRegion2: ", isFetchingRegion2);
     return () => {
-      if (isLoadingRegion2) {
+      if (isLoadingRegion2 || isFetchingRegion2) {
         queryClient.cancelQueries([
           "line-graph-data",
           region2,
@@ -126,7 +130,7 @@ const compare = () => {
         ]);
       }
     };
-  }, [isLoadingRegion2]);
+  }, [isLoadingRegion2, isFetchingRegion2]);
 
   const region1Data = {
     region1HistoricDemandData: graphDataRegion1.historic_demand_data,

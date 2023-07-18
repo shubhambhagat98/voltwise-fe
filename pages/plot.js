@@ -70,6 +70,8 @@ const plot = () => {
   );
 
   useEffect(() => {
+    console.log("plot page IsLoading: ", isLoading);
+    console.log("plot page IsFetching: ", isFetching);
     return () => {
       if (isLoading || isFetching) {
         queryClient.cancelQueries([
