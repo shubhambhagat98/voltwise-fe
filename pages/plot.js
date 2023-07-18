@@ -131,6 +131,7 @@ export const getStaticProps = async () => {
     ["line-graph-data", region, model, frequency, timePeriod],
     () => fetchData(region, model, frequency, timePeriod)
   );
+  console.log("prefetch plot time:", new Date().toLocaleTimeString());
 
   return {
     props: {
@@ -138,7 +139,7 @@ export const getStaticProps = async () => {
     },
 
     // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 3600,
+    revalidate: 10,
   };
 };
 

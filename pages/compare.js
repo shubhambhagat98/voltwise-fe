@@ -179,7 +179,7 @@ const compare = () => {
 export const getStaticProps = async () => {
   const region1 = "CAL";
   const region2 = "CAR";
-  const frequency = "W";
+  const frequency = "M";
   const timePeriod = "3-months";
   const model = "prophet";
 
@@ -194,6 +194,8 @@ export const getStaticProps = async () => {
     ["line-graph-data", region2, model, frequency, timePeriod],
     () => fetchData(region2, model, frequency, timePeriod)
   );
+
+  console.log("prefetch compare time:", new Date().toLocaleTimeString());
 
   return {
     props: {
