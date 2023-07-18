@@ -10,7 +10,7 @@ const empytyState = (set, get) => ({
   region2: "CAR",
   setRegion2: (region) => set({ region2: region }),
 
-  frequency: "D",
+  frequency: "W",
   setFrequency: (frequency) => set({ frequency }),
 
   timePeriod: "3-months",
