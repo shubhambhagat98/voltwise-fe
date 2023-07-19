@@ -194,7 +194,7 @@ export const getStaticProps = async () => {
     },
 
     // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 20,
+    revalidate: 3600,
   };
 };
 export default analytics;
