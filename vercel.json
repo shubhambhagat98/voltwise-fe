@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "pages/isr/**/*": {
+      "maxDuration": 60
+    }
+  }
+}
