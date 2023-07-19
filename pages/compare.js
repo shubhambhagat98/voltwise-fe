@@ -14,9 +14,26 @@ import { useCompareStore } from "@/store/compareStore";
 import ErrorBox from "@/components/common/ErrorBox";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const API_URL2 = process.env.NEXT_BASE_URL;
 
 const fetchData = async (region, model, frequency, time) => {
   const response = await axios.get(API_URL + `/graph-data`, {
+    params: {
+      region: region,
+      model: model,
+      frequency: frequency,
+      time: time,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};
+
+const serverSideFetchData = async (region, model, frequency, time) => {
+  const response = await axios.get(API_URL2 + `/graph-data`, {
     params: {
       region: region,
       model: model,
@@ -189,17 +206,21 @@ export const getStaticProps = async () => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    ["line-graph-data", region1, model, frequency, timePeriod],
-    () => fetchData(region1, model, frequency, timePeriod)
-  );
+  try {
+    await queryClient.prefetchQuery(
+      ["line-graph-data", region1, model, frequency, timePeriod],
+      () => serverSideFetchData(region1, model, frequency, timePeriod)
+    );
 
-  await queryClient.prefetchQuery(
-    ["line-graph-data", region2, model, frequency, timePeriod],
-    () => fetchData(region2, model, frequency, timePeriod)
-  );
+    await queryClient.prefetchQuery(
+      ["line-graph-data", region2, model, frequency, timePeriod],
+      () => serverSideFetchData(region2, model, frequency, timePeriod)
+    );
 
-  console.log("prefetch compare time:", new Date().toLocaleTimeString());
+    console.log("prefetch compare time:", new Date().toLocaleTimeString());
+  } catch (err) {
+    console.log("prefetch compare error:", err);
+  }
 
   return {
     props: {
@@ -207,7 +228,7 @@ export const getStaticProps = async () => {
     },
 
     // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 3600,
+    revalidate: 20,
   };
 };
 

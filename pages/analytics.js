@@ -18,6 +18,7 @@ import axios from "axios";
 import ErrorBox from "@/components/common/ErrorBox";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const API_URL2 = process.env.NEXT_BASE_URL;
 
 const fetchData = async (region, year) => {
   const response = await axios.get(API_URL + `/statistics-data`, {
@@ -34,6 +35,20 @@ const fetchData = async (region, year) => {
   // const date = new Date();
   // const time = date.toLocaleTimeString();
   // console.log(`Data fetched at ${time}`);
+
+  return response.data;
+};
+
+const serverSideFetchData = async (region, year) => {
+  const response = await axios.get(API_URL2 + `/statistics-data`, {
+    params: {
+      region: region,
+      year: year,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   return response.data;
 };
@@ -163,9 +178,15 @@ export const getStaticProps = async () => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["analytics-data", region, year], () =>
-    fetchData(region, year)
-  );
+  try {
+    await queryClient.prefetchQuery(["analytics-data", region, year], () =>
+      serverSideFetchData(region, year)
+    );
+    console.log("prefetch analytics time:", new Date().toLocaleTimeString());
+  } catch (error) {
+    // Handle the error here, you can log it or return a fallback value if needed.
+    console.error("Error prefetching data:", error);
+  }
 
   return {
     props: {
@@ -173,7 +194,7 @@ export const getStaticProps = async () => {
     },
 
     // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 3600,
+    revalidate: 20,
   };
 };
 export default analytics;

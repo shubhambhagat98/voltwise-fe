@@ -14,9 +14,26 @@ import { useEffect } from "react";
 import ErrorBox from "@/components/common/ErrorBox";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const API_URL2 = process.env.NEXT_BASE_URL;
 
 const fetchData = async (region, model, frequency, time) => {
   const response = await axios.get(API_URL + `/graph-data`, {
+    params: {
+      region: region,
+      model: model,
+      frequency: frequency,
+      time: time,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};
+
+const serverSideFetchData = async (region, model, frequency, time) => {
+  const response = await axios.get(API_URL2 + `/graph-data`, {
     params: {
       region: region,
       model: model,
@@ -129,11 +146,15 @@ export const getStaticProps = async () => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    ["line-graph-data", region, model, frequency, timePeriod],
-    () => fetchData(region, model, frequency, timePeriod)
-  );
-  console.log("prefetch plot time:", new Date().toLocaleTimeString());
+  try {
+    await queryClient.prefetchQuery(
+      ["line-graph-data", region, model, frequency, timePeriod],
+      () => serverSideFetchData(region, model, frequency, timePeriod)
+    );
+    console.log("prefetch plot time:", new Date().toLocaleTimeString());
+  } catch (err) {
+    console.log("prefetch plot error: ", err);
+  }
 
   return {
     props: {
@@ -141,7 +162,7 @@ export const getStaticProps = async () => {
     },
 
     // Next.js will attempt to re-generate the page every 1 hour,
-    revalidate: 3600,
+    revalidate: 20,
   };
 };
 
