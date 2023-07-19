@@ -23,7 +23,16 @@ export default function App({
   emotionCache = clientSideEmotionCache,
 }) {
   const theme = useMuiTheme();
-  const queryClient = useRef(new QueryClient());
+  const queryClient = useRef(
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          staleTime: 15 * (60 * 1000), // 5 mins
+          cacheTime: 20 * (60 * 1000), // 10 mins
+        },
+      },
+    })
+  );
 
   return (
     <CacheProvider value={emotionCache}>

@@ -81,8 +81,7 @@ const analytics = () => {
     () => fetchData(region, year),
     {
       enabled: region !== undefined && year !== undefined,
-      staleTime: 20 * 60 * 2000, // 20 minutes
-      cacheTime: 20 * 60 * 2000, // 20 minutes
+
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -91,7 +90,6 @@ const analytics = () => {
   );
 
   useEffect(() => {
-    console.log("Analytics page isLoading: ", isLoading);
     console.log("Analytics page isFetching: ", isFetching);
     return () => {
       if (isLoading || isFetching) {
@@ -179,12 +177,8 @@ export const getStaticProps = async () => {
   const queryClient = new QueryClient();
 
   try {
-    await queryClient.prefetchQuery(
-      ["analytics-data", region, year],
-      () => serverSideFetchData(region, year),
-      {
-        staleTime: 58 * 60 * 2000, // 58 minutes
-      }
+    await queryClient.prefetchQuery(["analytics-data", region, year], () =>
+      serverSideFetchData(region, year)
     );
     console.log("prefetch analytics time:", new Date().toLocaleTimeString());
   } catch (error) {
@@ -197,8 +191,8 @@ export const getStaticProps = async () => {
       dehydratedState: dehydrate(queryClient),
     },
 
-    // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 3600,
+    // Next.js will attempt to re-generate the page every 20 min
+    revalidate: 60 * 20,
   };
 };
 export default analytics;

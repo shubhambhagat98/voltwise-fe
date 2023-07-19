@@ -48,11 +48,15 @@ const serverSideFetchData = async (region, model, frequency, time) => {
   return response.data;
 };
 
-const plot = () => {
+const plot = ({ pageData, prefetchTime }) => {
   const region = usePlotStore((state) => state.region);
   const model = usePlotStore((state) => state.model);
   const frequency = usePlotStore((state) => state.frequency);
   const timePeriod = usePlotStore((state) => state.timePeriod);
+
+  useEffect(() => {
+    console.log("prefetch plot time:", prefetchTime);
+  }, [prefetchTime]);
 
   const queryClient = useQueryClient();
 
@@ -77,17 +81,16 @@ const plot = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 20 * 60 * 2000, // 20 minutes
-      cacheTime: 20 * 60 * 2000, // 20 minutes
+
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: true,
+      initialData: pageData,
     }
   );
 
   useEffect(() => {
-    console.log("plot page IsLoading: ", isLoading);
     console.log("plot page IsFetching: ", isFetching);
     return () => {
       if (isLoading || isFetching) {
@@ -144,28 +147,25 @@ export const getStaticProps = async () => {
   const timePeriod = "3-months";
   const model = "prophet";
 
-  const queryClient = new QueryClient();
+  let pageData = {};
+  const prefetchTime = new Date().toLocaleTimeString();
 
   try {
-    await queryClient.prefetchQuery(
-      ["line-graph-data", region, model, frequency, timePeriod],
-      () => serverSideFetchData(region, model, frequency, timePeriod),
-      {
-        staleTime: 58 * 60 * 2000, // 58 minutes
-      }
-    );
-    console.log("prefetch plot time:", new Date().toLocaleTimeString());
+    pageData = await serverSideFetchData(region, model, frequency, timePeriod);
+    console.log("prefetch plot time: ", prefetchTime);
+    // console.log("prefetch plot data: ", pageData);
   } catch (err) {
     console.log("prefetch plot error: ", err);
   }
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      pageData: pageData,
+      prefetchTime: prefetchTime,
     },
 
-    // Next.js will attempt to re-generate the page every 1 hour,
-    revalidate: 3600,
+    // Next.js will attempt to re-generate the page every 20 min,
+    revalidate: 20 * 60,
   };
 };
 

@@ -78,8 +78,7 @@ const compare = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 20 * 60 * 2000, // 20 minutes
-      cacheTime: 20 * 60 * 2000, // 20 minutes
+
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -108,8 +107,7 @@ const compare = () => {
         model !== undefined &&
         frequency !== undefined &&
         timePeriod !== null,
-      staleTime: 20 * 60 * 2000, // 20 minutes
-      cacheTime: 20 * 60 * 2000, // 20 minutes
+
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -118,7 +116,6 @@ const compare = () => {
   );
 
   useEffect(() => {
-    console.log("compare page isLoadingRegion1: ", isLoadingRegion1);
     console.log("compare page isFetchingRegion1: ", isFetchingRegion1);
     return () => {
       if (isLoadingRegion1 || isFetchingRegion1) {
@@ -209,18 +206,12 @@ export const getStaticProps = async () => {
   try {
     await queryClient.prefetchQuery(
       ["line-graph-data", region1, model, frequency, timePeriod],
-      () => serverSideFetchData(region1, model, frequency, timePeriod),
-      {
-        staleTime: 58 * 60 * 2000, // 58 minutes
-      }
+      () => serverSideFetchData(region1, model, frequency, timePeriod)
     );
 
     await queryClient.prefetchQuery(
       ["line-graph-data", region2, model, frequency, timePeriod],
-      () => serverSideFetchData(region2, model, frequency, timePeriod),
-      {
-        staleTime: 58 * 60 * 2000, // 58 minutes
-      }
+      () => serverSideFetchData(region2, model, frequency, timePeriod)
     );
 
     console.log("prefetch compare time:", new Date().toLocaleTimeString());
@@ -233,8 +224,8 @@ export const getStaticProps = async () => {
       dehydratedState: dehydrate(queryClient),
     },
 
-    // Next.js will attempt to re-generate the page every 1 hour
-    revalidate: 3600,
+    // Next.js will attempt to re-generate the page every 20 min
+    revalidate: 60 * 20,
   };
 };
 
