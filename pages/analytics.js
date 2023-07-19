@@ -179,8 +179,12 @@ export const getStaticProps = async () => {
   const queryClient = new QueryClient();
 
   try {
-    await queryClient.prefetchQuery(["analytics-data", region, year], () =>
-      serverSideFetchData(region, year)
+    await queryClient.prefetchQuery(
+      ["analytics-data", region, year],
+      () => serverSideFetchData(region, year),
+      {
+        staleTime: 58 * 60 * 2000, // 58 minutes
+      }
     );
     console.log("prefetch analytics time:", new Date().toLocaleTimeString());
   } catch (error) {

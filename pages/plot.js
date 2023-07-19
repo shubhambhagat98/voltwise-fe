@@ -149,7 +149,10 @@ export const getStaticProps = async () => {
   try {
     await queryClient.prefetchQuery(
       ["line-graph-data", region, model, frequency, timePeriod],
-      () => serverSideFetchData(region, model, frequency, timePeriod)
+      () => serverSideFetchData(region, model, frequency, timePeriod),
+      {
+        staleTime: 58 * 60 * 2000, // 58 minutes
+      }
     );
     console.log("prefetch plot time:", new Date().toLocaleTimeString());
   } catch (err) {
