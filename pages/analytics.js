@@ -85,7 +85,7 @@ const analytics = ({ pageData, prefetchTime }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: false,
-      initialData: pageData,
+      initialData: region === "CAL" && year === 2023 ? pageData : undefined,
     }
   );
 

@@ -87,7 +87,10 @@ const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: true,
-      initialData: region1pageData,
+      initialData:
+        region1 === "CAL" && frequency === "M" && timePeriod === "3-months"
+          ? region1pageData
+          : undefined,
     }
   );
 
@@ -117,7 +120,10 @@ const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: true,
-      initialData: region2pageData,
+      initialData:
+        region2 === "CAR" && frequency === "M" && timePeriod === "3-months"
+          ? region2pageData
+          : undefined,
     }
   );
 

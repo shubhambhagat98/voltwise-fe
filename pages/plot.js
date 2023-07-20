@@ -81,7 +81,10 @@ const plot = ({ pageData, prefetchTime }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: true,
-      initialData: pageData,
+      initialData:
+        region === "CAL" && frequency === "W" && timePeriod === "3-months"
+          ? pageData
+          : undefined,
     }
   );
 
