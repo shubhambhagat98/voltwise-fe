@@ -125,7 +125,7 @@ const plot = ({ prefetchTime, pageData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxWidth="xl">
-        <h1>Plot prefetch time {prefetchTime}</h1>
+        {/* <h1>Plot prefetch time {prefetchTime}</h1> */}
         <Options />
         {isError ? (
           <ErrorBox error={error} refetch={refetch} />

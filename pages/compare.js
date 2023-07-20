@@ -189,7 +189,7 @@ const compare = ({ prefetchTime, region1pageData, region2pageData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxWidth="xl">
-        <h1>Compare prefetch time {prefetchTime}</h1>
+        {/* <h1>Compare prefetch time {prefetchTime}</h1> */}
         <Options />
         {isQueryError ? (
           <ErrorBox

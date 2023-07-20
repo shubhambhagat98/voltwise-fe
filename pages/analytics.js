@@ -122,7 +122,7 @@ const analytics = ({ prefetchTime, pageData }) => {
       </Head>
 
       <Container maxWidth="xl">
-        <h1>Analytics prefetch time {prefetchTime}</h1>
+        {/* <h1>Analytics prefetch time {prefetchTime}</h1> */}
         <Options />
 
         {isError ? (
