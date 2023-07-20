@@ -48,7 +48,7 @@ const serverSideFetchData = async (region, year) => {
   return response.data;
 };
 
-const analytics = ({ pageData, prefetchTime }) => {
+const analytics = ({ prefetchTime, pageData }) => {
   const region = useAnalyticsStore((state) => state.region);
   const year = useAnalyticsStore((state) => state.year);
 
@@ -122,6 +122,7 @@ const analytics = ({ pageData, prefetchTime }) => {
       </Head>
 
       <Container maxWidth="xl">
+        <h1>Analytics prefetch time {prefetchTime}</h1>
         <Options />
 
         {isError ? (
@@ -192,12 +193,9 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      pageData,
       prefetchTime,
+      pageData,
     },
-
-    // Next.js will attempt to re-generate the page every 20 sec
-    revalidate: 20,
   };
 };
 export default analytics;

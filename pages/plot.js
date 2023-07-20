@@ -45,7 +45,7 @@ const serverSideFetchData = async (region, model, frequency, time) => {
   return response.data;
 };
 
-const plot = ({ pageData, prefetchTime }) => {
+const plot = ({ prefetchTime, pageData }) => {
   const region = usePlotStore((state) => state.region);
   const model = usePlotStore((state) => state.model);
   const frequency = usePlotStore((state) => state.frequency);
@@ -125,6 +125,7 @@ const plot = ({ pageData, prefetchTime }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxWidth="xl">
+        <h1>Plot prefetch time {prefetchTime}</h1>
         <Options />
         {isError ? (
           <ErrorBox error={error} refetch={refetch} />
@@ -162,8 +163,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      pageData,
       prefetchTime,
+      pageData,
     },
 
     // Next.js will attempt to re-generate the page every 20 sec,

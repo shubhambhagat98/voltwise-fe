@@ -48,7 +48,7 @@ const serverSideFetchData = async (region, model, frequency, time) => {
   return response.data;
 };
 
-const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
+const compare = ({ prefetchTime, region1pageData, region2pageData }) => {
   const region1 = useCompareStore((state) => state.region1);
   const region2 = useCompareStore((state) => state.region2);
   const model = useCompareStore((state) => state.model);
@@ -189,6 +189,7 @@ const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxWidth="xl">
+        <h1>Compare prefetch time {prefetchTime}</h1>
         <Options />
         {isQueryError ? (
           <ErrorBox
@@ -238,9 +239,9 @@ export const getStaticProps = async () => {
 
   return {
     props: {
+      prefetchTime,
       region1pageData,
       region2pageData,
-      prefetchTime,
     },
 
     // Next.js will attempt to re-generate the page every 20 min
