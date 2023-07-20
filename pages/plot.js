@@ -160,8 +160,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      pageData: pageData,
-      prefetchTime: prefetchTime,
+      pageData,
+      prefetchTime,
     },
 
     // Next.js will attempt to re-generate the page every 20 min,

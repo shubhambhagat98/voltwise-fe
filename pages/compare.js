@@ -48,12 +48,16 @@ const serverSideFetchData = async (region, model, frequency, time) => {
   return response.data;
 };
 
-const compare = () => {
+const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
   const region1 = useCompareStore((state) => state.region1);
   const region2 = useCompareStore((state) => state.region2);
   const model = useCompareStore((state) => state.model);
   const frequency = useCompareStore((state) => state.frequency);
   const timePeriod = useCompareStore((state) => state.timePeriod);
+
+  useEffect(() => {
+    console.log("prefetch compare time:", prefetchTime);
+  }, [prefetchTime]);
 
   const queryClient = useQueryClient();
 
@@ -83,6 +87,7 @@ const compare = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: true,
+      initialData: region1pageData,
     }
   );
 
@@ -112,6 +117,7 @@ const compare = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: true,
+      initialData: region2pageData,
     }
   );
 
@@ -131,7 +137,6 @@ const compare = () => {
   }, [isLoadingRegion1, isFetchingRegion1]);
 
   useEffect(() => {
-    console.log("compare page isLoadingRegion2: ", isLoadingRegion2);
     console.log("compare page isFetchingRegion2: ", isFetchingRegion2);
     return () => {
       if (isLoadingRegion2 || isFetchingRegion2) {
@@ -201,27 +206,34 @@ export const getStaticProps = async () => {
   const timePeriod = "3-months";
   const model = "prophet";
 
-  const queryClient = new QueryClient();
-
+  let region1pageData = {};
+  let region2pageData = {};
+  const prefetchTime = new Date().toLocaleTimeString();
   try {
-    await queryClient.prefetchQuery(
-      ["line-graph-data", region1, model, frequency, timePeriod],
-      () => serverSideFetchData(region1, model, frequency, timePeriod)
+    region1pageData = await serverSideFetchData(
+      region1,
+      model,
+      frequency,
+      timePeriod
     );
 
-    await queryClient.prefetchQuery(
-      ["line-graph-data", region2, model, frequency, timePeriod],
-      () => serverSideFetchData(region2, model, frequency, timePeriod)
+    region2pageData = await serverSideFetchData(
+      region2,
+      model,
+      frequency,
+      timePeriod
     );
 
-    console.log("prefetch compare time:", new Date().toLocaleTimeString());
+    console.log("prefetch compare time:", prefetchTime);
   } catch (err) {
     console.log("prefetch compare error:", err);
   }
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      region1pageData,
+      region2pageData,
+      prefetchTime,
     },
 
     // Next.js will attempt to re-generate the page every 20 min
