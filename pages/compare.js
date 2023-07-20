@@ -56,6 +56,7 @@ const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
   const timePeriod = useCompareStore((state) => state.timePeriod);
 
   useEffect(() => {
+    console.log("client side compare time: ", new Date().toLocaleTimeString());
     console.log("prefetch compare time:", prefetchTime);
   }, [prefetchTime]);
 
@@ -128,7 +129,7 @@ const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
   );
 
   useEffect(() => {
-    console.log("compare page isFetchingRegion1: ", isFetchingRegion1);
+    // console.log("compare page isFetchingRegion1: ", isFetchingRegion1);
     return () => {
       if (isLoadingRegion1 || isFetchingRegion1) {
         queryClient.cancelQueries([
@@ -143,7 +144,7 @@ const compare = ({ region1pageData, region2pageData, prefetchTime }) => {
   }, [isLoadingRegion1, isFetchingRegion1]);
 
   useEffect(() => {
-    console.log("compare page isFetchingRegion2: ", isFetchingRegion2);
+    // console.log("compare page isFetchingRegion2: ", isFetchingRegion2);
     return () => {
       if (isLoadingRegion2 || isFetchingRegion2) {
         queryClient.cancelQueries([
@@ -243,7 +244,7 @@ export const getStaticProps = async () => {
     },
 
     // Next.js will attempt to re-generate the page every 20 min
-    revalidate: 60 * 20,
+    revalidate: 20,
   };
 };
 

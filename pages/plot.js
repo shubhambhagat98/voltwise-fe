@@ -52,6 +52,7 @@ const plot = ({ pageData, prefetchTime }) => {
   const timePeriod = usePlotStore((state) => state.timePeriod);
 
   useEffect(() => {
+    console.log("client side plot time: ", new Date().toLocaleTimeString());
     console.log("prefetch plot time:", prefetchTime);
   }, [prefetchTime]);
 
@@ -91,7 +92,7 @@ const plot = ({ pageData, prefetchTime }) => {
   );
 
   useEffect(() => {
-    console.log("plot page IsFetching: ", isFetching);
+    // console.log("plot page IsFetching: ", isFetching);
     return () => {
       if (isLoading || isFetching) {
         queryClient.cancelQueries([
@@ -165,8 +166,8 @@ export const getStaticProps = async () => {
       prefetchTime,
     },
 
-    // Next.js will attempt to re-generate the page every 20 min,
-    revalidate: 20 * 60,
+    // Next.js will attempt to re-generate the page every 20 sec,
+    revalidate: 60,
   };
 };
 

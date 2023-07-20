@@ -53,7 +53,11 @@ const analytics = ({ pageData, prefetchTime }) => {
   const year = useAnalyticsStore((state) => state.year);
 
   useEffect(() => {
-    console.log("prefetch plot time:", prefetchTime);
+    console.log(
+      "client side analytics time: ",
+      new Date().toLocaleTimeString()
+    );
+    console.log("prefetch analytics time:", prefetchTime);
   }, [prefetchTime]);
 
   const queryClient = useQueryClient();
@@ -90,7 +94,7 @@ const analytics = ({ pageData, prefetchTime }) => {
   );
 
   useEffect(() => {
-    console.log("Analytics page isFetching: ", isFetching);
+    // console.log("Analytics page isFetching: ", isFetching);
     return () => {
       if (isLoading || isFetching) {
         queryClient.cancelQueries(["analytics-data", region, year]);
@@ -192,8 +196,8 @@ export const getStaticProps = async () => {
       prefetchTime,
     },
 
-    // Next.js will attempt to re-generate the page every 20 min
-    revalidate: 60 * 20,
+    // Next.js will attempt to re-generate the page every 20 sec
+    revalidate: 20,
   };
 };
 export default analytics;
