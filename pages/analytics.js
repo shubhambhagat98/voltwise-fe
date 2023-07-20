@@ -8,12 +8,7 @@ import { Graph } from "@/components/analytics/Graph";
 import { Metrics } from "@/components/analytics/Metrics";
 import { InfoTable } from "@/components/analytics/InfoTable";
 import { DonutGraph } from "@/components/common/DonutGraph";
-import {
-  useQuery,
-  useQueryClient,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import ErrorBox from "@/components/common/ErrorBox";
 
@@ -53,9 +48,13 @@ const serverSideFetchData = async (region, year) => {
   return response.data;
 };
 
-const analytics = () => {
+const analytics = ({ pageData, prefetchTime }) => {
   const region = useAnalyticsStore((state) => state.region);
   const year = useAnalyticsStore((state) => state.year);
+
+  useEffect(() => {
+    console.log("prefetch plot time:", prefetchTime);
+  }, [prefetchTime]);
 
   const queryClient = useQueryClient();
 
@@ -86,6 +85,7 @@ const analytics = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       keepPreviousData: false,
+      initialData: pageData,
     }
   );
 
@@ -174,13 +174,13 @@ export const getStaticProps = async () => {
   const region = "CAL";
   const year = 2023;
 
-  const queryClient = new QueryClient();
+  let pageData = {};
+  const prefetchTime = new Date().toLocaleTimeString();
 
   try {
-    await queryClient.prefetchQuery(["analytics-data", region, year], () =>
-      serverSideFetchData(region, year)
-    );
-    console.log("prefetch analytics time:", new Date().toLocaleTimeString());
+    pageData = await serverSideFetchData(region, year);
+
+    console.log("prefetch plot time: ", prefetchTime);
   } catch (error) {
     // Handle the error here, you can log it or return a fallback value if needed.
     console.error("Error prefetching data:", error);
@@ -188,7 +188,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      pageData,
+      prefetchTime,
     },
 
     // Next.js will attempt to re-generate the page every 20 min

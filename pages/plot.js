@@ -3,12 +3,7 @@ import { Graphs } from "@/components/plotpage/Graphs";
 import { Box, Container } from "@mui/material";
 import Head from "next/head";
 import { usePlotStore } from "@/store/plotStore";
-import {
-  useQuery,
-  useQueryClient,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
 import ErrorBox from "@/components/common/ErrorBox";

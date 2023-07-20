@@ -6,13 +6,9 @@ import createEmotionCache from "@/lib/createEmotionCache";
 import { useMuiTheme } from "@/theme/theme";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 
-import {
-  QueryClient,
-  QueryClientProvider,
-  Hydrate,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 
 // client-side cache, shared for the whole session of the user in the browser
 const clientSideEmotionCache = createEmotionCache();
@@ -27,8 +23,8 @@ export default function App({
     new QueryClient({
       defaultOptions: {
         queries: {
-          staleTime: 15 * (60 * 1000), // 5 mins
-          cacheTime: 20 * (60 * 1000), // 10 mins
+          staleTime: 15 * (60 * 1000), // 15 mins
+          cacheTime: 20 * (60 * 1000), // 20 mins
         },
       },
     })
@@ -43,11 +39,11 @@ export default function App({
 
         <QueryClientProvider client={queryClient.current}>
           <CssBaseline />
-          <Hydrate state={pageProps.dehydratedState}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Hydrate>
+          {/* <Hydrate state={pageProps.dehydratedState}> */}
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          {/* </Hydrate> */}
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ThemeProvider>
