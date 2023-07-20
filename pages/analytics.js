@@ -180,7 +180,7 @@ export const getStaticProps = async () => {
   try {
     pageData = await serverSideFetchData(region, year);
 
-    console.log("prefetch plot time: ", prefetchTime);
+    console.log("prefetch analytics time: ", prefetchTime);
   } catch (error) {
     // Handle the error here, you can log it or return a fallback value if needed.
     console.error("Error prefetching data:", error);

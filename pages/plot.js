@@ -40,6 +40,8 @@ const serverSideFetchData = async (region, model, frequency, time) => {
     },
   });
 
+  console.log("inside fetch plot time: ", new Date().toLocaleTimeString());
+
   return response.data;
 };
 
@@ -146,11 +148,12 @@ export const getStaticProps = async () => {
   const model = "prophet";
 
   let pageData = {};
-  const prefetchTime = new Date().toLocaleTimeString();
+  let prefetchTime = null;
 
   try {
     pageData = await serverSideFetchData(region, model, frequency, timePeriod);
-    console.log("prefetch plot time: ", prefetchTime);
+    prefetchTime = new Date().toLocaleTimeString();
+    console.log("after fetch plot time: ", prefetchTime);
     // console.log("prefetch plot data: ", pageData);
   } catch (err) {
     console.log("prefetch plot error: ", err);
