@@ -8,7 +8,11 @@ export default async function handler(req, res) {
     // this should be the actual path not a rewritten path
     // e.g. for "/blog/[slug]" this should be "/blog/post-1"
     //   await res.revalidate("/analytics");
-    return res.json({ revalidated: true });
+    return res.json({
+      revalidated: true,
+      time: new Date().toLocaleTimeString(),
+      page: "plot page",
+    });
   } catch (err) {
     // If there was an error, Next.js will continue
     // to show the last successfully generated page

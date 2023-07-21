@@ -4,7 +4,6 @@
       "maxDuration": 60
     }
   },
-  "builds": {
-    "ignore": [".github/workflows/cron_job.yml"]
-  }
+
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ':!./.github/workflows/cron_job.yml'"
 }
