@@ -166,9 +166,6 @@ export const getStaticProps = async () => {
       prefetchTime,
       pageData,
     },
-
-    // Next.js will attempt to re-generate the page every 20 sec,
-    revalidate: 60,
   };
 };
 

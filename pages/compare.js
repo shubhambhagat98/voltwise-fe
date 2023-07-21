@@ -243,9 +243,6 @@ export const getStaticProps = async () => {
       region1pageData,
       region2pageData,
     },
-
-    // Next.js will attempt to re-generate the page every 20 min
-    revalidate: 20,
   };
 };
 
