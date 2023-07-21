@@ -3,5 +3,8 @@
     "pages/isr/**/*": {
       "maxDuration": 60
     }
+  },
+  "builds": {
+    "ignore": [".github/workflows/cron_job.yml"]
   }
 }
