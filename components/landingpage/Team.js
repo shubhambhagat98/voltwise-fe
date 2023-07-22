@@ -1,12 +1,5 @@
 import TeamData from "./TeamInfoData.json";
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Divider, Grid, Typography, useTheme } from "@mui/material";
 import { TeamMemberImage } from "./TeamMemberImage";
 import { TeamMemberInfo } from "./TeamMemberInfo";
 import { useEffect } from "react";

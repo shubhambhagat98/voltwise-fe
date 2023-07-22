@@ -1,6 +1,6 @@
 import { Options } from "@/components/plotpage/Options";
 import { Graphs } from "@/components/plotpage/Graphs";
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Head from "next/head";
 import { usePlotStore } from "@/store/plotStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -160,7 +160,7 @@ export const getStaticProps = async () => {
     pageData = await serverSideFetchData(region, model, frequency, timePeriod);
     prefetchCompleteTime = formatDateInEasternTime(new Date());
 
-    console.log("compare: prefetch end time:", prefetchCompleteTime);
+    console.log("plot: prefetch end time:", prefetchCompleteTime);
   } catch (err) {
     console.log("prefetch plot error: ", err);
   }

@@ -14,8 +14,6 @@ import {
   Toolbar,
   Typography,
   Button,
-  Link,
-  Avatar,
   Container,
   Icon,
 } from "@mui/material";
@@ -32,7 +30,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { tokens } from "@/theme/colorTokens";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const drawerWidth = 240;
 

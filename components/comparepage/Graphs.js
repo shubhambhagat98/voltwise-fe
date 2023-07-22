@@ -1,11 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { Graph } from "../common/Graph";
 
-import { useCompareStore } from "@/store/compareStore";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
-import axios from "axios";
-
 export const Graphs = ({
   region1Data: {
     region1HistoricDemandData,

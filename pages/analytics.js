@@ -192,7 +192,7 @@ export const getStaticProps = async () => {
 
     prefetchCompleteTime = formatDateInEasternTime(new Date());
 
-    console.log("compare: prefetch end time:", prefetchCompleteTime);
+    console.log("analytics: prefetch end time:", prefetchCompleteTime);
   } catch (error) {
     // Handle the error here, you can log it or return a fallback value if needed.
     console.error("Error prefetching data:", error);

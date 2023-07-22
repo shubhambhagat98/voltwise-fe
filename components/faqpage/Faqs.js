@@ -7,7 +7,6 @@ import {
   Typography,
   useTheme,
   AccordionSummary,
-  Grid,
 } from "@mui/material";
 
 import { tokens } from "@/theme/colorTokens";

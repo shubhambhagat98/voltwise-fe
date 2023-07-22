@@ -1,11 +1,6 @@
 import { Container } from "@mui/material";
 import Head from "next/head";
-import {
-  useQuery,
-  useQueryClient,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
 import { Options } from "@/components/comparepage/Options";
