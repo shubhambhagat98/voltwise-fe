@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
 import ErrorBox from "@/components/common/ErrorBox";
+import { formatDateInEasternTime } from "@/utils/FrequencyAndTime";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const API_URL2 = process.env.NEXT_BASE_URL;
@@ -39,8 +40,6 @@ const serverSideFetchData = async (region, model, frequency, time) => {
       "Content-Type": "application/json",
     },
   });
-
-  console.log("inside fetch plot time: ", new Date().toLocaleTimeString());
 
   return response.data;
 };
@@ -150,20 +149,25 @@ export const getStaticProps = async () => {
   const model = "prophet";
 
   let pageData = {};
-  let prefetchTime = null;
+  let prefetchCompleteTime = null;
 
   try {
+    console.log(
+      "plot: prefetch start time:",
+      formatDateInEasternTime(new Date())
+    );
+
     pageData = await serverSideFetchData(region, model, frequency, timePeriod);
-    prefetchTime = new Date().toLocaleTimeString();
-    console.log("after fetch plot time: ", prefetchTime);
-    // console.log("prefetch plot data: ", pageData);
+    prefetchCompleteTime = formatDateInEasternTime(new Date());
+
+    console.log("compare: prefetch end time:", prefetchCompleteTime);
   } catch (err) {
     console.log("prefetch plot error: ", err);
   }
 
   return {
     props: {
-      prefetchTime,
+      prefetchTime: prefetchCompleteTime,
       pageData,
     },
   };

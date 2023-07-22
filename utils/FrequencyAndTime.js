@@ -27,3 +27,18 @@ export const getTimePeriodInMonths = (timePeriod) => {
       return 0;
   }
 };
+
+export const formatDateInEasternTime = (date) => {
+  const options = {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  return formatter.format(date);
+};

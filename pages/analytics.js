@@ -11,6 +11,7 @@ import { DonutGraph } from "@/components/common/DonutGraph";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import ErrorBox from "@/components/common/ErrorBox";
+import { formatDateInEasternTime } from "@/utils/FrequencyAndTime";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const API_URL2 = process.env.NEXT_BASE_URL;
@@ -180,12 +181,18 @@ export const getStaticProps = async () => {
   const year = 2023;
 
   let pageData = {};
-  const prefetchTime = new Date().toLocaleTimeString();
+  let prefetchCompleteTime = null;
 
   try {
+    console.log(
+      "analytics: prefetch start time:",
+      formatDateInEasternTime(new Date())
+    );
     pageData = await serverSideFetchData(region, year);
 
-    console.log("prefetch analytics time: ", prefetchTime);
+    prefetchCompleteTime = formatDateInEasternTime(new Date());
+
+    console.log("compare: prefetch end time:", prefetchCompleteTime);
   } catch (error) {
     // Handle the error here, you can log it or return a fallback value if needed.
     console.error("Error prefetching data:", error);
@@ -193,7 +200,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      prefetchTime,
+      prefetchTime: prefetchCompleteTime,
       pageData,
     },
   };

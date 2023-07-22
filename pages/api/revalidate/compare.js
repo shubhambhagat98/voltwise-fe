@@ -1,3 +1,5 @@
+import { formatDateInEasternTime } from "@/utils/FrequencyAndTime";
+
 export default async function handler(req, res) {
   // // Check for secret to confirm this is a valid request
   if (req.query.secret !== process.env.NEXT_BASE_REVALIDATE_TOKEN) {
@@ -8,7 +10,7 @@ export default async function handler(req, res) {
     await res.revalidate("/compare");
     return res.json({
       revalidated: true,
-      time: new Date().toLocaleTimeString(),
+      time: formatDateInEasternTime(new Date()),
       page: "compare page",
     });
   } catch (err) {

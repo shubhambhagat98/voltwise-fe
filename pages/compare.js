@@ -12,6 +12,7 @@ import { Options } from "@/components/comparepage/Options";
 import { Graphs } from "@/components/comparepage/Graphs";
 import { useCompareStore } from "@/store/compareStore";
 import ErrorBox from "@/components/common/ErrorBox";
+import { formatDateInEasternTime } from "@/utils/FrequencyAndTime";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const API_URL2 = process.env.NEXT_BASE_URL;
@@ -216,8 +217,14 @@ export const getStaticProps = async () => {
 
   let region1pageData = {};
   let region2pageData = {};
-  const prefetchTime = new Date().toLocaleTimeString();
+  let prefetchCompleteTime = null;
+
   try {
+    console.log(
+      "compare: prefetch start time:",
+      formatDateInEasternTime(new Date())
+    );
+
     region1pageData = await serverSideFetchData(
       region1,
       model,
@@ -232,14 +239,16 @@ export const getStaticProps = async () => {
       timePeriod
     );
 
-    console.log("prefetch compare time:", prefetchTime);
+    prefetchCompleteTime = formatDateInEasternTime(new Date());
+
+    console.log("compare: prefetch end time:", prefetchCompleteTime);
   } catch (err) {
     console.log("prefetch compare error:", err);
   }
 
   return {
     props: {
-      prefetchTime,
+      prefetchTime: prefetchCompleteTime,
       region1pageData,
       region2pageData,
     },
