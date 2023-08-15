@@ -1,6 +1,11 @@
 import { Box, Grid } from "@mui/material";
 import { Graph } from "../common/Graph";
-import { GraphCompare } from "../common/GraphCompare";
+// import { GraphCompare } from "../common/GraphCompare";
+import dynamic from "next/dynamic";
+
+const GraphCompare = dynamic(() => import("../common/GraphCompare"), {
+  ssr: false,
+});
 
 export const Graphs = ({
   region1Data: {

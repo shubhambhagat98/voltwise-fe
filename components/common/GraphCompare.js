@@ -46,8 +46,6 @@ const formatDateWithDay = (val) => {
     month: "short",
     year: "numeric",
   });
-
-  // return val;
 };
 
 const formatDateWithoutDay = (val) => {
@@ -57,7 +55,7 @@ const formatDateWithoutDay = (val) => {
   return month + ", " + year;
 };
 
-export const GraphCompare = ({
+const GraphCompare = ({
   actualdata,
   predictedData,
   type,
@@ -76,6 +74,7 @@ export const GraphCompare = ({
   // const [count, setCount] = useState(0);
   const [series, setSeries] = useState([]);
   const [duration, setDuration] = useState("6months");
+
   const current = useMemo(
     () =>
       new Date(
@@ -86,63 +85,6 @@ export const GraphCompare = ({
 
   const chartRef = useRef(null);
   const elRef = useRef(null);
-
-  useEffect(() => {
-    import("apexcharts").then((ApexCharts) => {
-      if (typeof window !== undefined && elRef.current) {
-        // console.log(id);
-        chartRef.current = new ApexCharts.default(elRef.current, {
-          ...options,
-          chart: {
-            ...options.chart,
-            id,
-            group,
-          },
-          series: series,
-        });
-
-        chartRef.current?.render();
-      }
-
-      return () => {
-        chartRef.current?.destroy();
-      };
-    });
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== undefined && chartRef.current) {
-      // const { chart, ...opts } = options;
-      // console.log(id);
-      chartRef.current.updateOptions(
-        {
-          ...options,
-          chart: {
-            ...options.chart,
-            id,
-            group,
-          },
-          series: series,
-        },
-        false,
-        true,
-        false
-      );
-
-      // Increment count
-      // setCount((prevCount) => prevCount + 1);
-    }
-  }, [options, chartRef.current, series, id]);
-
-  // useEffect(() => {
-  //   if (
-  //     typeof window !== undefined &&
-  //     chartRef.current &&
-  //     series.length !== 0
-  //   ) {
-  //     chartRef.current.updateSeries(series);
-  //   }
-  // }, [series, actualdata]);
 
   useEffect(() => {
     setSeries([
@@ -188,6 +130,7 @@ export const GraphCompare = ({
   }, [duration, actualdata]);
 
   useEffect(() => {
+    // console.log("updating options: ", !!chartRef.current);
     setOptions((prevState) => ({
       ...prevState,
       chart: {
@@ -201,9 +144,9 @@ export const GraphCompare = ({
             setDuration("1year");
           },
 
-          // mounted: function (chartContext, config) {
-          //   console.log(chartContext.w.config.chart.id);
-          // },
+          mounted: function (chartContext, config) {
+            console.log(chartContext.w.config.chart.id);
+          },
         },
       },
 
@@ -297,7 +240,111 @@ export const GraphCompare = ({
         },
       },
     }));
-  }, [theme, minDate, isLoading, id, group]);
+  }, [theme, minDate, isLoading, id]);
+
+  useEffect(() => {
+    const renderChart = async () => {
+      const ApexCharts = await import("apexcharts");
+
+      if (typeof window !== undefined && elRef.current) {
+        if (!chartRef.current) {
+          console.log("initialize chart:", series.length);
+          chartRef.current = new ApexCharts.default(elRef.current, {
+            ...options,
+            chart: {
+              ...options.chart,
+              id,
+              group,
+            },
+            series: series,
+          });
+
+          try {
+            await chartRef.current.render();
+            console.log("Chart rendered successfully!");
+          } catch (error) {
+            console.error("Error rendering chart:", error);
+          }
+        } else {
+          chartRef.current
+            .updateOptions(
+              {
+                ...options,
+                chart: {
+                  ...options.chart,
+                  id,
+                  group,
+                },
+                series: series,
+              },
+              false,
+              true,
+              false
+            )
+            .then(() => {
+              console.log("Chart updated successfully!");
+            })
+            .catch((error) => {
+              console.error("Error updating chart:", error);
+            });
+        }
+      }
+    };
+
+    renderChart();
+  }, [series, options]);
+
+  // // useEffect to update series
+  // useEffect(() => {
+  //   if (
+  //     typeof window !== undefined &&
+  //     chartRef.current &&
+  //     series.length !== 0
+  //   ) {
+  //     console.log("updating series:", series.length);
+
+  //     chartRef.current
+  //       .updateSeries(series, false, true, false)
+  //       .then(() => {
+  //         console.log("Series updated successfully!");
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error updating series:", error);
+  //       });
+  //   }
+  // }, [series, options]);
+
+  useEffect(() => {
+    if (typeof window !== undefined && chartRef.current) {
+      // const { chart, ...opts } = options;
+      console.log("updating options:", series.length);
+
+      chartRef.current
+        .updateOptions(
+          {
+            ...options,
+            chart: {
+              ...options.chart,
+              id,
+              group,
+            },
+            series: series,
+          },
+          false,
+          true,
+          false
+        )
+        .then(() => {
+          console.log("Chart updated successfully!");
+        })
+        .catch((error) => {
+          console.error("Error updating chart:", error);
+        });
+
+      // Increment count
+      // setCount((prevCount) => prevCount + 1);
+    }
+  }, [options, series]);
 
   return (
     <Box
@@ -410,3 +457,5 @@ export const GraphCompare = ({
     </Box>
   );
 };
+
+export default GraphCompare;
