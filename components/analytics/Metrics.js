@@ -102,7 +102,11 @@ export const Metrics = ({
 
         <MetricBox
           title="Energy Trade Balance this year"
-          value={totalEnergyImport - totalEnergyExport}
+          value={
+            totalEnergyImport === null
+              ? null
+              : totalEnergyImport - totalEnergyExport
+          }
           isLoading={isLoading}
         />
       </Box>

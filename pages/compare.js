@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import Head from "next/head";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Options } from "@/components/comparepage/Options";
 import { Graphs } from "@/components/comparepage/Graphs";
 import { useCompareStore } from "@/store/compareStore";
@@ -154,25 +154,65 @@ const compare = ({ prefetchTime, region1pageData, region2pageData }) => {
     };
   }, [isLoadingRegion2, isFetchingRegion2]);
 
-  const region1Data = {
-    region1HistoricDemandData: graphDataRegion1.historic_demand_data,
-    region1HistoricGenerationData: graphDataRegion1.historic_generation_data,
-    region1ForecastDemandData: graphDataRegion1.forecast_demand_data,
-    region1ForecastGenerationData: graphDataRegion1.forecast_generation_data,
-    region1: region1,
-    isLoadingRegion1: isLoadingRegion1,
-    isFetchingRegion1: isFetchingRegion1,
-  };
+  // const region1Data = {
+  //   region1HistoricDemandData: graphDataRegion1.historic_demand_data,
+  //   region1HistoricGenerationData: graphDataRegion1.historic_generation_data,
+  //   region1ForecastDemandData: graphDataRegion1.forecast_demand_data,
+  //   region1ForecastGenerationData: graphDataRegion1.forecast_generation_data,
+  //   region1: region1,
+  //   isLoadingRegion1: isLoadingRegion1,
+  //   isFetchingRegion1: isFetchingRegion1,
+  // };
 
-  const region2Data = {
-    region2HistoricDemandData: graphDataRegion2.historic_demand_data,
-    region2HistoricGenerationData: graphDataRegion2.historic_generation_data,
-    region2ForecastDemandData: graphDataRegion2.forecast_demand_data,
-    region2ForecastGenerationData: graphDataRegion2.forecast_generation_data,
-    region2: region2,
-    isLoadingRegion2: isLoadingRegion2,
-    isFetchingRegion2: isFetchingRegion2,
-  };
+  // const region2Data = {
+  //   region2HistoricDemandData: graphDataRegion2.historic_demand_data,
+  //   region2HistoricGenerationData: graphDataRegion2.historic_generation_data,
+  //   region2ForecastDemandData: graphDataRegion2.forecast_demand_data,
+  //   region2ForecastGenerationData: graphDataRegion2.forecast_generation_data,
+  //   region2: region2,
+  //   isLoadingRegion2: isLoadingRegion2,
+  //   isFetchingRegion2: isFetchingRegion2,
+  // };
+
+  const region1Data = useMemo(() => {
+    return {
+      region1HistoricDemandData: graphDataRegion1.historic_demand_data,
+      region1HistoricGenerationData: graphDataRegion1.historic_generation_data,
+      region1ForecastDemandData: graphDataRegion1.forecast_demand_data,
+      region1ForecastGenerationData: graphDataRegion1.forecast_generation_data,
+      region1: region1,
+      isLoadingRegion1: isLoadingRegion1,
+      isFetchingRegion1: isFetchingRegion1,
+      region1GenerationId:
+        region1 +
+        "region1-generation" +
+        Math.floor(100000 + Math.random() * 900000),
+      region1DemandId:
+        region1 +
+        "region1-demand" +
+        Math.floor(100000 + Math.random() * 900000),
+    };
+  }, [graphDataRegion1, region1, isLoadingRegion1, isFetchingRegion1]);
+
+  const region2Data = useMemo(() => {
+    return {
+      region2HistoricDemandData: graphDataRegion2.historic_demand_data,
+      region2HistoricGenerationData: graphDataRegion2.historic_generation_data,
+      region2ForecastDemandData: graphDataRegion2.forecast_demand_data,
+      region2ForecastGenerationData: graphDataRegion2.forecast_generation_data,
+      region2: region2,
+      isLoadingRegion2: isLoadingRegion2,
+      isFetchingRegion2: isFetchingRegion2,
+      region2GenerationId:
+        region2 +
+        "region2-generation" +
+        Math.floor(100000 + Math.random() * 900000),
+      region2DemandId:
+        region2 +
+        "region2-demand" +
+        Math.floor(100000 + Math.random() * 900000),
+    };
+  }, [graphDataRegion2, region2, isLoadingRegion2, isFetchingRegion2]);
 
   const isQueryError = isErrorRegion1 || isErrorRegion2;
 
