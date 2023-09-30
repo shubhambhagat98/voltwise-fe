@@ -5,5 +5,5 @@
     }
   },
 
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ':!./.github/workflows/cron_job.yml'"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ':!./.github/workflows/cron_job.yml' ':!./README.md'"
 }
