@@ -80,7 +80,7 @@ Once the model is trained on the new data, the next step is to generate a 1-year
 <p>
 
 
-<img src="https://github.com/shubhambhagat98/voltwise-fe/assets/53030762/37363d16-7273-40a1-aa71-0a930788da96" align="right" width="600"/>
+<img src="https://github.com/shubhambhagat98/voltwise-fe/assets/53030762/37363d16-7273-40a1-aa71-0a930788da96" align="right" width="500"/>
 
   We utilize a combination of technologies for our frontend development. Next.js serves as our frontend framework, ApexCharts.js handles interactive data visualization components, and Material UI is used for CSS styling.
 
