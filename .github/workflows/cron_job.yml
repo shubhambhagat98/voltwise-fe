@@ -9,6 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Call AWS API and display response
+        env:
+          AWS_BASE_URL: ${{ secrets.AWS_BASE_URL }}
+        run: |
+          RESPONSE=$(curl -X GET "${AWS_BASE_URL}/statistics-data?region=CAL&year=2023")
+          REGION=$(echo "$RESPONSE" | jq -r .region)
+          YEAR=$(echo "$RESPONSE" | jq -r .year)
+          echo "AWS Region: $REGION, Year: $YEAR"
+
       - name: Call /analytics API and display response
         env:
           REVALIDATE_TOKEN: ${{ secrets.REVALIDATE_TOKEN }}
