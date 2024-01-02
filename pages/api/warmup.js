@@ -18,6 +18,6 @@ export default async function handler(req, res) {
     // If there was an error, Next.js will continue
     // to show the last successfully generated page
     console.log(err);
-    return res.status(500).send("Error warming up");
+    return res.status(500).send("Error warming up vercel");
   }
 }
