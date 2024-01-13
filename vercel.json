@@ -3,7 +3,7 @@
     "pages/isr/**/*": {
       "maxDuration": 60
     },
-    "api/revalidate/*.js": {
+    "pages/api/**/*": {
       "maxDuration": 30
     }
   },
