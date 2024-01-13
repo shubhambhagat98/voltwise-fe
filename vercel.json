@@ -2,6 +2,9 @@
   "functions": {
     "pages/isr/**/*": {
       "maxDuration": 60
+    },
+    "api/revalidate/*.js": {
+      "maxDuration": 30
     }
   },
 

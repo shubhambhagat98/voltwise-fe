@@ -25,13 +25,12 @@ jobs:
       #     RESPONSE=$(curl -X GET "https://voltwise.vercel.app/api/warmup?secret=${REVALIDATE_TOKEN}")
       #     echo "Warmup Response: $RESPONSE"
 
-      - name: Call /analytics API and display response
+      - name: Call /compare API and display response
         env:
           REVALIDATE_TOKEN: ${{ secrets.REVALIDATE_TOKEN }}
         run: |
-          RESPONSE=$(curl -X GET "https://voltwise.vercel.app/api/revalidate/analytics?secret=${REVALIDATE_TOKEN}")
-          echo "/analytics Response: $RESPONSE"
-
+          RESPONSE=$(curl -X GET "https://voltwise.vercel.app/api/revalidate/compare?secret=${REVALIDATE_TOKEN}")
+          echo "/compare Response: $RESPONSE"
       - name: Call /plot API and display response
         env:
           REVALIDATE_TOKEN: ${{ secrets.REVALIDATE_TOKEN }}
@@ -39,9 +38,9 @@ jobs:
           RESPONSE=$(curl -X GET "https://voltwise.vercel.app/api/revalidate/plot?secret=${REVALIDATE_TOKEN}")
           echo "/plot Response: $RESPONSE"
 
-      - name: Call /compare API and display response
+      - name: Call /analytics API and display response
         env:
           REVALIDATE_TOKEN: ${{ secrets.REVALIDATE_TOKEN }}
         run: |
-          RESPONSE=$(curl -X GET "https://voltwise.vercel.app/api/revalidate/compare?secret=${REVALIDATE_TOKEN}")
-          echo "/compare Response: $RESPONSE"
+          RESPONSE=$(curl -X GET "https://voltwise.vercel.app/api/revalidate/analytics?secret=${REVALIDATE_TOKEN}")
+          echo "/analytics Response: $RESPONSE"
