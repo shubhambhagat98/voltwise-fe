@@ -4,7 +4,10 @@
       "maxDuration": 60
     },
     "pages/api/**/*": {
-      "maxDuration": 30
+      "maxDuration": 60
+    },
+    "pages/*.js": {
+      "maxDuration": 60
     }
   },
 
